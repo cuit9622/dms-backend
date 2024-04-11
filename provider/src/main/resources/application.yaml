@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: provider
+  cloud:
+    loadbalancer:
+      nacos:
+        enabled: true
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: ${NACOS_SERVER}
+server:
+  port: 0
