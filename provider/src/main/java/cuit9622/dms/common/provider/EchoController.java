@@ -1,4 +1,4 @@
-package cuit9622.engineerproject4.provider;
+package cuit9622.dms.common.provider;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

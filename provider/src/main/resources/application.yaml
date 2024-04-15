@@ -10,4 +10,4 @@ spring:
         enabled: true
         server-addr: ${NACOS_SERVER}
 server:
-  port: 0
+  port: 8080

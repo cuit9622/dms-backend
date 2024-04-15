@@ -8,7 +8,9 @@
         <artifactId>main</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>provider</artifactId>
+
+    <artifactId>common</artifactId>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -16,13 +18,24 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>5.8.27</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cuit9622.dms</groupId>
-            <artifactId>security-starter</artifactId>
-            <version>${revision}</version>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+            <version>5.8.27</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
         </dependency>
     </dependencies>
+
 </project>

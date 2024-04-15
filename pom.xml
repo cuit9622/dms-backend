@@ -8,7 +8,7 @@
         <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>cuit9622.engineerproject4</groupId>
+    <groupId>cuit9622.dms</groupId>
     <artifactId>main</artifactId>
     <version>${revision}</version>
     <name>main</name>
@@ -23,6 +23,8 @@
         <module>gateway</module>
         <module>provider</module>
         <module>consumer</module>
+        <module>security-starter</module>
+        <module>common</module>
     </modules>
     <dependencies>
         <dependency>
@@ -49,10 +51,22 @@
         </dependency>
 
         <dependency>
+            <groupId>cuit9622.dms</groupId>
+            <artifactId>common</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
