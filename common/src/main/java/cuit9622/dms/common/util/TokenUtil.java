@@ -1,11 +1,10 @@
-package cuit9622.dms.security.util;
+package cuit9622.dms.common.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import cuit9622.dms.security.model.DMSUserDetail;
-import cuit9622.dms.common.util.JsonUtil;
+import cuit9622.dms.common.model.DMSUserDetail;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
@@ -18,6 +17,22 @@ public class TokenUtil {
     private static final Algorithm algorithm = Algorithm.HMAC256("nwgaG3wHKECDuw82RRvCKJTtmv3SEjGEVs9e0upK5RivEscDJgXr65U7wfpT2Ii5");
     private static final JWTCreator.Builder builder = JWT.create();
     private static final JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
+
+    public static String createRefreshToken(Long userID) {
+        Calendar expireTime = Calendar.getInstance();
+        expireTime.add(Calendar.HOUR, 30 * 24); //刷新Token有效期设为30天
+        builder.withJWTId(UUID.randomUUID().toString())// 设置token唯一标识
+                .withSubject(userID.toString()) // 设置token的主体
+                .withIssuer(ISSUER)// 签发者
+                .withIssuedAt(new Date()) //签发时间
+                .withExpiresAt(expireTime.getTime()); //设置过期时间
+        return builder.sign(algorithm);
+    }
+
+    public static Long decodeRefreshToken(String token) {
+        String userID = verifier.verify(token).getSubject();
+        return Long.parseLong(userID);
+    }
 
     public static String createAccessToken(DMSUserDetail userDetail) {
         Calendar expireTime = Calendar.getInstance();
