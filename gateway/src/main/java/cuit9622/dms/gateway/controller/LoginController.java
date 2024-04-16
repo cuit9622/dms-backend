@@ -19,7 +19,8 @@ public class LoginController {
     @GetMapping("/refresh")
     public CommonResult<LoginRespVo> refresh(@RequestHeader("token") String refreshToken) {
         //TODO实现更具体的逻辑
-        LoginRespVo token = generateToken(0L);
+        Long userID=TokenUtil.decodeRefreshToken(refreshToken);
+        LoginRespVo token = generateToken(userID);
         return CommonResult.success(token);
     }
 
