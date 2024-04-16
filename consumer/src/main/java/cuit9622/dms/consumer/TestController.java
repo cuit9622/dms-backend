@@ -1,4 +1,4 @@
-package cuit9622.dms.common.consumer;
+package cuit9622.dms.consumer;
 
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;

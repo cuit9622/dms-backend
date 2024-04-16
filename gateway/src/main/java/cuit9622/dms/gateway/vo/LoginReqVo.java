@@ -1,9 +1,9 @@
-package cuit9622.dms.common.consumer.gateway.vo;
+package cuit9622.dms.gateway.vo;
 
 import lombok.Data;
 
 @Data
-public class LoginVo {
+public class LoginReqVo {
     private String userName;
     private String passWord;
 }

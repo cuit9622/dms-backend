@@ -1,4 +1,4 @@
-package cuit9622.dms.common.consumer;
+package cuit9622.dms.consumer;
 
 
 import org.springframework.cloud.openfeign.FeignClient;

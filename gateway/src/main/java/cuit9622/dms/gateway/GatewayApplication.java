@@ -1,4 +1,4 @@
-package cuit9622.dms.common.consumer.gateway;
+package cuit9622.dms.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
