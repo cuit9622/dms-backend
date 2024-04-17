@@ -22,7 +22,6 @@
         <dependency>
             <groupId>cuit9622.dms</groupId>
             <artifactId>security-starter</artifactId>
-            <version>${revision}</version>
         </dependency>
     </dependencies>
     <build>
