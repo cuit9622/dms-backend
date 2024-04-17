@@ -10,6 +10,6 @@ public class SecurityUtil {
     }
 
     public static DMSUserDetail getUserDetail() {
-        return (DMSUserDetail) SecurityContextHolder.getContext().getAuthentication();
+        return (DMSUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

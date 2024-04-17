@@ -19,10 +19,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cuit9622.dms</groupId>
-            <artifactId>security-starter</artifactId>
-        </dependency>
     </dependencies>
     <build>
         <plugins>

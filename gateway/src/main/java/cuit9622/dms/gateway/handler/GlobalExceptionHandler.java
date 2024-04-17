@@ -14,11 +14,14 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.reactive.resource.NoResourceFoundException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+
+import static cuit9622.dms.common.model.CommonResult.error;
 
 @Component
 @Order(-1) // 保证优先级高于默认的 Spring Cloud Gateway 的 ErrorWebExceptionHandler 实现
@@ -36,7 +39,9 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
         // 转换成 CommonResult
         CommonResult<?> result;
-        if (ex instanceof ResponseStatusException) {
+        if (ex instanceof NoResourceFoundException) {
+            result = CommonResult.error(ErrorCodes.NOT_FOUND);
+        } else if (ex instanceof ResponseStatusException) {
             result = responseStatusExceptionHandler(exchange, (ResponseStatusException) ex);
         } else {
             result = defaultExceptionHandler(exchange, ex);
@@ -53,7 +58,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
                                                            ResponseStatusException ex) {
         ServerHttpRequest request = exchange.getRequest();
         log.error("[responseStatusExceptionHandler][uri({}/{}) 发生异常]", request.getURI(), request.getMethod(), ex);
-        return CommonResult.error(ex.getStatusCode().value(), ex.getReason());
+        return error(ex.getStatusCode().value(), ex.getReason());
     }
 
     /**
@@ -64,7 +69,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
                                                    Throwable ex) {
         ServerHttpRequest request = exchange.getRequest();
         log.error("[defaultExceptionHandler][uri({}/{}) 发生异常]", request.getURI(), request.getMethod(), ex);
-        return CommonResult.error(ErrorCodes.INTERNAL_SERVER_ERROR.getCode(), ErrorCodes.INTERNAL_SERVER_ERROR.getMsg());
+        return error(ErrorCodes.INTERNAL_SERVER_ERROR.getCode(), ErrorCodes.INTERNAL_SERVER_ERROR.getMsg());
     }
 
     @SuppressWarnings("deprecation")

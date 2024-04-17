@@ -11,7 +11,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-        CommonResult<?> commonResult = CommonResult.error(ErrorCodes.FORBIDDEN);
+        CommonResult<?> commonResult = CommonResult.error(ErrorCodes.UNAUTHORIZED);
         ServletUtil.writeJSON(response, commonResult);
     }
 }
