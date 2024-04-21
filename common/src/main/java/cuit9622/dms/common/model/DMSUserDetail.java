@@ -7,6 +7,5 @@ import java.util.Set;
 @Data
 public class DMSUserDetail {
     private Long ID;
-    private String userName;
     private Set<String> authorities;
 }
