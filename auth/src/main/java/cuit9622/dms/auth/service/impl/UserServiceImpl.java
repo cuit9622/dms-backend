@@ -1,7 +1,6 @@
 package cuit9622.dms.auth.service.impl;
 
 import cuit9622.dms.auth.service.UserService;
-import cuit9622.dms.auth.service.client.MenuClient;
 import cuit9622.dms.auth.service.client.UserClient;
 import cuit9622.dms.auth.vo.LoginRepVo;
 import cuit9622.dms.common.entity.MenuTree;
@@ -24,8 +23,6 @@ public class UserServiceImpl implements UserService {
     @Resource
     UserClient userClient;
 
-    @Resource
-    MenuClient menuClient;
 
     @Resource
     RedisTemplate<String, Object> redisTemplate;
@@ -43,7 +40,7 @@ public class UserServiceImpl implements UserService {
         }
         // 拿到权限信息和token存到redis中
         String token = JWTUtils.creatToken(user.getUsername());
-        List<MenuTree> menuTree = menuClient.getMenuTree(user.getUserId());
+        List<MenuTree> menuTree = userClient.getMenuTree(user.getUserId());
         redisTemplate.opsForValue().set(RedisUtils.TOKEN_KEY + user.getUserId(),
                 token, JWTUtils.EXPIRE_TIME, TimeUnit.DAYS);
         redisTemplate.opsForValue().set(RedisUtils.PERMISSIONS_KEY + user.getUserId(),

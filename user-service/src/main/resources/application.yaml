@@ -1,6 +1,10 @@
 spring:
   application:
-    name: user
+    name: user-service
+  datasource:
+    url: jdbc:mysql://${MYSQL_SERVER}/dms
+    username: root
+    password: 123456
   cloud:
     loadbalancer:
       nacos:
