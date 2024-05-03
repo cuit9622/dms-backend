@@ -7,7 +7,7 @@ spring:
         locator:
           enabled: true
       x-forwarded:
-        prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
+        prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-controller/system 前缀
     nacos:
       discovery:
         server-addr: ${NACOS_SERVER}

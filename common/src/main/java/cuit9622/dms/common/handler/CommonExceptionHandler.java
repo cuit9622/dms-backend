@@ -1,4 +1,4 @@
-package cuit9622.dms.security.handler;
+package cuit9622.dms.common.handler;
 
 import cuit9622.dms.common.enums.ErrorCodes;
 import cuit9622.dms.common.model.CommonResult;
@@ -8,7 +8,6 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -22,8 +21,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @RestControllerAdvice
 @AllArgsConstructor
 @Slf4j
-public class GlobalExceptionHandler {
-
+public class CommonExceptionHandler {
     private final String applicationName;
 
     public CommonResult<?> allExceptionHandler(HttpServletRequest request, Throwable ex) {
@@ -109,23 +107,6 @@ public class GlobalExceptionHandler {
         return CommonResult.error(ErrorCodes.METHOD_NOT_ALLOWED.getCode(), String.format("请求方法不正确:%s", ex.getMessage()));
     }
 
-    /**
-     * 处理 Spring Security 权限不足的异常
-     * <p>
-     * 来源是，使用 @PreAuthorize 注解，AOP 进行权限拦截
-     */
-    @ExceptionHandler(value = AccessDeniedException.class)
-    public CommonResult<?> accessDeniedExceptionHandler(HttpServletRequest req, AccessDeniedException ex) {
-        //TODO
-//        log.warn("[accessDeniedExceptionHandler][userId({}) 无法访问 url({})]", WebFrameworkUtils.getLoginUserId(req),
-//                req.getRequestURL(), ex);
-        return CommonResult.error(ErrorCodes.FORBIDDEN);
-    }
-
-
-    /**
-     * 处理系统异常，兜底处理所有的一切
-     */
     @ExceptionHandler(value = Exception.class)
     public CommonResult<?> defaultExceptionHandler(HttpServletRequest req, Throwable ex) {
         log.error("[defaultExceptionHandler]", ex);
