@@ -41,10 +41,11 @@ public class UserServiceImpl implements UserService {
         // 拿到权限信息和token存到redis中
         String token = JWTUtils.creatToken(user.getUserId());
         List<MenuTree> menuTree = userClient.getMenuTree(user.getUserId());
+        List<String> authorities = userClient.getAuthoritiesByUserId(user.getUserId());
         redisTemplate.opsForValue().set(RedisUtils.TOKEN_KEY + user.getUserId(),
                 token, JWTUtils.EXPIRE_TIME, TimeUnit.DAYS);
         redisTemplate.opsForValue().set(RedisUtils.PERMISSIONS_KEY + user.getUserId(),
-                menuTree, JWTUtils.EXPIRE_TIME, TimeUnit.DAYS);
+                authorities, JWTUtils.EXPIRE_TIME, TimeUnit.DAYS);
 
         LoginRepVo loginRepVo = new LoginRepVo();
         loginRepVo.setMenuTree(menuTree);

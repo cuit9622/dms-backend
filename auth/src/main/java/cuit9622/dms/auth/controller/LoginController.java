@@ -6,6 +6,8 @@ import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.model.CommonResult;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,5 +21,11 @@ public class LoginController {
     @PostMapping("/login")
     public CommonResult<LoginRepVo> login(@RequestBody User user) {
         return userService.login(user);
+    }
+
+    @PreAuthorize("hasAuthority('sys:menu:add')")
+    @GetMapping("/test")
+    public String test() {
+        return "test";
     }
 }

@@ -14,6 +14,9 @@ public interface UserClient {
     @GetMapping("/user")
     User getUserByUserName(@RequestParam String username);
 
+    @GetMapping("/authorities")
+    List<String> getAuthoritiesByUserId(@RequestParam Long userId);
+
     @GetMapping("/tree/{userId}")
     List<MenuTree> getMenuTree(@PathVariable Long userId);
 }

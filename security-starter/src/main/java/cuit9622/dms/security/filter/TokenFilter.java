@@ -1,12 +1,12 @@
 package cuit9622.dms.security.filter;
 
-import cuit9622.dms.common.entity.MenuTree;
 import cuit9622.dms.common.enums.ErrorCodes;
 import cuit9622.dms.common.model.CommonResult;
 import cuit9622.dms.common.model.DMSUserDetail;
 import cuit9622.dms.common.util.JWTUtils;
 import cuit9622.dms.common.util.RedisUtils;
 import cuit9622.dms.common.util.ServletUtil;
+import cuit9622.dms.security.util.SecurityUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class TokenFilter extends OncePerRequestFilter {
     @Resource
-    RedisTemplate<String, Object> redisTemplate;
+    RedisTemplate<String, List<String>> redisTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -34,11 +34,11 @@ public class TokenFilter extends OncePerRequestFilter {
                 Long userId = JWTUtils.getUserId(token);
                 DMSUserDetail userDetails = new DMSUserDetail();
                 userDetails.setID(userId);
-                List<MenuTree> menuTree = (List<MenuTree>) redisTemplate
+                List<String> authorities = redisTemplate
                         .opsForValue().get(RedisUtils.PERMISSIONS_KEY + userId);
                 //将验证过后的用户信息放入context
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, null);
+                        userDetails, null, SecurityUtil.convertStringToGrantedAuthority(authorities));
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e) {
