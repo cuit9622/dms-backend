@@ -17,16 +17,11 @@ public class JWTUtils {
 
     public static final Integer EXPIRE_TIME = 3;
 
-    /**
-     * @param username 用户名
-     * @return
-     * @Description 创建token
-     */
-    public static String creatToken(String username) {
+    public static String creatToken(Long userId) {
 
         JWTCreator.Builder builder = JWT.create();
         builder.withJWTId(UUID.randomUUID().toString())// 设置token唯一标识
-                .withSubject(username) // 设置token的主体
+                .withSubject(String.valueOf(userId)) // 设置token的主体
                 .withIssuer("9622")// 签发者
                 .withIssuedAt(new Date()); //签发时间
         // 设置过期时间
@@ -37,18 +32,11 @@ public class JWTUtils {
         return builder.sign(Algorithm.HMAC256(SECRET_KEY));
     }
 
-    /**
-     * @param map      数据集合
-     * @param username 用户名
-     * @param expire   过期时间
-     * @return
-     * @Description 含有map数据的token
-     */
-    public static String creatToken(Map<String, Object> map, String username, Date expire) {
+    public static String creatToken(Map<String, Object> map, Long userId) {
 
         JWTCreator.Builder builder = JWT.create();
         builder.withJWTId(UUID.randomUUID().toString())// 设置token唯一标识
-                .withSubject(username) // 设置token的主体
+                .withSubject(String.valueOf(userId)) // 设置token的主体
                 .withIssuer("9622")// 签发者
                 .withIssuedAt(new Date()) //签发时间
                 .withPayload(map); // 存入动态数据
@@ -60,11 +48,12 @@ public class JWTUtils {
         return builder.sign(Algorithm.HMAC256(SECRET_KEY));
     }
 
-    /**
-     * @return
-     * @Description 解析token
-     */
     public static DecodedJWT verify(String token) throws JWTVerificationException {
         return JWT.require(Algorithm.HMAC256(SECRET_KEY)).build().verify(token);
+    }
+
+    public static Long getUserId(String token) {
+        String userId = verify(token).getSubject();
+        return Long.parseLong(userId);
     }
 }

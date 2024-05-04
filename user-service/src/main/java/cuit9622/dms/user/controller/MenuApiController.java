@@ -18,7 +18,7 @@ public class MenuApiController {
     MenuService menuService;
 
     @GetMapping("/tree/{userId}")
-    public List<MenuTree> getMenuTree(@PathVariable Integer userId) {
+    public List<MenuTree> getMenuTree(@PathVariable Long userId) {
         return menuService.getTreeMenu(userId);
     }
 }

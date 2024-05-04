@@ -55,9 +55,8 @@ public class SecurityConfiguration {
                         .authenticationEntryPoint(authenticationEntryPoint))
                 .headers(it -> it.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(it -> it
-                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                .anyRequest().authenticated()
-//                        .anyRequest().permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .anyRequest().permitAll()
                 )
         ;
         httpSecurity.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);

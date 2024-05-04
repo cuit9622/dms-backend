@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
             throw new BizException("用户名或密码错误");
         }
         // 拿到权限信息和token存到redis中
-        String token = JWTUtils.creatToken(user.getUsername());
+        String token = JWTUtils.creatToken(user.getUserId());
         List<MenuTree> menuTree = userClient.getMenuTree(user.getUserId());
         redisTemplate.opsForValue().set(RedisUtils.TOKEN_KEY + user.getUserId(),
                 token, JWTUtils.EXPIRE_TIME, TimeUnit.DAYS);

@@ -15,5 +15,5 @@ public interface UserClient {
     User getUserByUserName(@RequestParam String username);
 
     @GetMapping("/tree/{userId}")
-    List<MenuTree> getMenuTree(@PathVariable Integer userId);
+    List<MenuTree> getMenuTree(@PathVariable Long userId);
 }

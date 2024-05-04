@@ -7,9 +7,9 @@ import java.io.Serializable;
 @Data
 public class Menu implements Serializable {
 
-    private Integer menuId;
+    private Long menuId;
 
-    private Integer parentId;
+    private Long parentId;
 
     /**
      * 菜单名称
