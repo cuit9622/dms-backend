@@ -3,6 +3,7 @@ package cuit9622.dms.auth.controller;
 import cuit9622.dms.auth.service.UserService;
 import cuit9622.dms.auth.vo.LoginRepVo;
 import cuit9622.dms.common.entity.User;
+import cuit9622.dms.common.exception.BizException;
 import cuit9622.dms.common.model.CommonResult;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -24,8 +25,14 @@ public class LoginController {
     }
 
     @PreAuthorize("hasAuthority('sys:menu:add')")
-    @GetMapping("/test")
-    public String test() {
-        return "test";
+    @GetMapping("/test1")
+    public String test1() {
+        return "ok";
+    }
+
+    @PermitAll
+    @GetMapping("/test2")
+    public String test2() {
+        throw new BizException(114514, "原神玩少了");
     }
 }

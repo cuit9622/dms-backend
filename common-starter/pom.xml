@@ -9,7 +9,7 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>common</artifactId>
+    <artifactId>common-starter</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

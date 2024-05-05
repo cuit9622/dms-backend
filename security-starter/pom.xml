@@ -21,8 +21,7 @@
         </dependency>
         <dependency>
             <groupId>cuit9622.dms</groupId>
-            <artifactId>common</artifactId>
-            <version>${revision}</version>
+            <artifactId>common-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

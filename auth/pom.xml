@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>cuit9622.dms</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>common-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>cuit9622.dms</groupId>

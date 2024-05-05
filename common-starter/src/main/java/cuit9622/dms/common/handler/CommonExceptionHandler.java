@@ -1,6 +1,7 @@
 package cuit9622.dms.common.handler;
 
 import cuit9622.dms.common.enums.ErrorCodes;
+import cuit9622.dms.common.exception.BizException;
 import cuit9622.dms.common.model.CommonResult;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -23,7 +24,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class CommonExceptionHandler {
     private final String applicationName;
 
-    public CommonResult<?> allExceptionHandler(HttpServletRequest request, Throwable ex) {
+    public CommonResult<?> allExceptionHandler(HttpServletRequest request, Exception ex) {
         if (ex instanceof MissingServletRequestParameterException) {
             return missingServletRequestParameterExceptionHandler((MissingServletRequestParameterException) ex);
         }
@@ -45,10 +46,10 @@ public class CommonExceptionHandler {
         if (ex instanceof HttpRequestMethodNotSupportedException) {
             return httpRequestMethodNotSupportedExceptionHandler((HttpRequestMethodNotSupportedException) ex);
         }
-        return defaultExceptionHandler(request, ex);
+        return defaultExceptionHandler(ex);
     }
 
-    @ExceptionHandler(value = MissingServletRequestParameterException.class)
+    @ExceptionHandler(MissingServletRequestParameterException.class)
     public CommonResult<?> missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
         log.warn("[missingServletRequestParameterExceptionHandler]", ex);
         return CommonResult.error(ErrorCodes.BAD_REQUEST.getCode(), String.format("请求参数缺失:%s", ex.getParameterName()));
@@ -76,14 +77,14 @@ public class CommonExceptionHandler {
         return CommonResult.error(ErrorCodes.BAD_REQUEST.getCode(), String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
     }
 
-    @ExceptionHandler(value = ConstraintViolationException.class)
+    @ExceptionHandler(ConstraintViolationException.class)
     public CommonResult<?> constraintViolationExceptionHandler(ConstraintViolationException ex) {
         log.warn("[constraintViolationExceptionHandler]", ex);
         ConstraintViolation<?> constraintViolation = ex.getConstraintViolations().iterator().next();
         return CommonResult.error(ErrorCodes.BAD_REQUEST.getCode(), String.format("请求参数不正确:%s", constraintViolation.getMessage()));
     }
 
-    @ExceptionHandler(value = ValidationException.class)
+    @ExceptionHandler(ValidationException.class)
     public CommonResult<?> validationException(ValidationException ex) {
         log.warn("[constraintViolationExceptionHandler]", ex);
         // 无法拼接明细的错误信息，因为 Dubbo Consumer 抛出 ValidationException 异常时，是直接的字符串信息，且人类不可读
@@ -96,8 +97,14 @@ public class CommonExceptionHandler {
         return CommonResult.error(ErrorCodes.METHOD_NOT_ALLOWED.getCode(), String.format("请求方法不正确:%s", ex.getMessage()));
     }
 
-    @ExceptionHandler(value = Exception.class)
-    public CommonResult<?> defaultExceptionHandler(HttpServletRequest req, Throwable ex) {
+    @ExceptionHandler(BizException.class)
+    public CommonResult<?> bizExceptionHandler(BizException ex) {
+        log.error("[bizExceptionHandler]", ex);
+        return CommonResult.error(ex.getCode(), ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public CommonResult<?> defaultExceptionHandler(Exception ex) {
         log.error("[defaultExceptionHandler]", ex);
         return CommonResult.error(ErrorCodes.INTERNAL_SERVER_ERROR);
     }

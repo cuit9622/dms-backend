@@ -23,7 +23,7 @@
     <modules>
         <module>gateway</module>
         <module>security-starter</module>
-        <module>common</module>
+        <module>common-starter</module>
         <module>auth</module>
         <module>user-service</module>
     </modules>
@@ -78,7 +78,7 @@
             </dependency>
             <dependency>
                 <groupId>cuit9622.dms</groupId>
-                <artifactId>common</artifactId>
+                <artifactId>common-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
