@@ -4,9 +4,6 @@ import cuit9622.dms.security.filter.TokenFilter;
 import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.autoconfigure.web.WebProperties;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -25,17 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration {
     @Resource
-    private WebProperties webProperties;
-    @Resource
-    private SecurityProperties securityProperties;
-    @Resource
     private TokenFilter tokenFilter;
     @Resource
     private AuthenticationEntryPoint authenticationEntryPoint;
     @Resource
     private AccessDeniedHandler accessDeniedHandler;
-    @Resource
-    private ApplicationContext applicationContext;
 
     @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
