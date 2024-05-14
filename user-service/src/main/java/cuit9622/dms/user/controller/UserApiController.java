@@ -1,6 +1,7 @@
 package cuit9622.dms.user.controller;
 
 import cuit9622.dms.common.entity.User;
+import cuit9622.dms.common.exception.BizException;
 import cuit9622.dms.user.mapper.UserMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -24,5 +25,10 @@ public class UserApiController {
     @GetMapping("/authorities")
     public List<String> getAuthoritiesByUserId(Long userId) {
         return userMapper.getAuthorities(userId);
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        throw new BizException(114, "我要玩原神");
     }
 }

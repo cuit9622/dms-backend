@@ -2,6 +2,7 @@ package cuit9622.dms.security.handler;
 
 import cuit9622.dms.common.enums.ErrorCodes;
 import cuit9622.dms.common.model.CommonResult;
+import cuit9622.dms.common.util.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +21,9 @@ public class SecurityExceptionHandler {
      */
     @ExceptionHandler(value = AccessDeniedException.class)
     public CommonResult<?> accessDeniedExceptionHandler(HttpServletRequest req, AccessDeniedException ex) {
-        //TODO
-//        log.warn("[accessDeniedExceptionHandler][userId({}) 无法访问 url({})]", WebFrameworkUtils.getLoginUserId(req),
-//                req.getRequestURL(), ex);
+        String token = req.getHeader("token");
+        log.warn("[accessDeniedExceptionHandler][userId({}) 无法访问 url({})]", JWTUtils.getUserId(token),
+                req.getRequestURL(), ex);
         return CommonResult.error(ErrorCodes.FORBIDDEN);
     }
 }

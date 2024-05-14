@@ -3,12 +3,13 @@ package cuit9622.dms.common.handler;
 import cuit9622.dms.common.enums.ErrorCodes;
 import cuit9622.dms.common.exception.BizException;
 import cuit9622.dms.common.model.CommonResult;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -24,6 +25,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class CommonExceptionHandler {
     private final String applicationName;
 
+    /*
     public CommonResult<?> allExceptionHandler(HttpServletRequest request, Exception ex) {
         if (ex instanceof MissingServletRequestParameterException) {
             return missingServletRequestParameterExceptionHandler((MissingServletRequestParameterException) ex);
@@ -48,6 +50,7 @@ public class CommonExceptionHandler {
         }
         return defaultExceptionHandler(ex);
     }
+     */
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public CommonResult<?> missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
@@ -104,8 +107,11 @@ public class CommonExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public CommonResult<?> defaultExceptionHandler(Exception ex) {
+    public ResponseEntity<CommonResult<?>> defaultExceptionHandler(Exception ex) {
         log.error("[defaultExceptionHandler]", ex);
-        return CommonResult.error(ErrorCodes.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(
+                CommonResult.error(ErrorCodes.INTERNAL_SERVER_ERROR),
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
     }
 }

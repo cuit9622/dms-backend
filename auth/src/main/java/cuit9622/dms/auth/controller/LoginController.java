@@ -1,6 +1,7 @@
 package cuit9622.dms.auth.controller;
 
 import cuit9622.dms.auth.service.UserService;
+import cuit9622.dms.auth.service.client.UserClient;
 import cuit9622.dms.auth.vo.LoginRepVo;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.exception.BizException;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     @Resource
     public UserService userService;
+    @Resource
+    private UserClient userClient;
 
     @PermitAll
     @PostMapping("/login")
@@ -34,5 +37,11 @@ public class LoginController {
     @GetMapping("/test2")
     public String test2() {
         throw new BizException(114514, "原神玩少了");
+    }
+
+    @PermitAll
+    @GetMapping("/test3")
+    public String test3() {
+        return userClient.test();
     }
 }

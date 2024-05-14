@@ -19,4 +19,7 @@ public interface UserClient {
 
     @GetMapping("/tree/{userId}")
     List<MenuTree> getMenuTree(@PathVariable Long userId);
+
+    @GetMapping("/test")
+    String test();
 }

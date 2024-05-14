@@ -28,25 +28,24 @@ public class TokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        try {
-            String token = request.getHeader("token");
-            if (!StringUtils.hasLength(token)) {
-                throw new Exception();
+        String token = request.getHeader("token");
+        if (StringUtils.hasLength(token)) {
+            try {
+                Long userId = JWTUtils.getUserId(token);
+                DMSUserDetail userDetails = new DMSUserDetail();
+                userDetails.setID(userId);
+                List<String> authorities = redisTemplate
+                        .opsForValue().get(RedisUtils.PERMISSIONS_KEY + userId);
+                //将验证过后的用户信息放入context
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, SecurityUtil.convertStringToGrantedAuthority(authorities));
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (Exception e) {
+                CommonResult<?> commonResult = CommonResult.error(ErrorCodes.FORBIDDEN);
+                ServletUtil.writeJSON(response, commonResult);
+                return;
             }
-            Long userId = JWTUtils.getUserId(token);
-            DMSUserDetail userDetails = new DMSUserDetail();
-            userDetails.setID(userId);
-            List<String> authorities = redisTemplate
-                    .opsForValue().get(RedisUtils.PERMISSIONS_KEY + userId);
-            //将验证过后的用户信息放入context
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, SecurityUtil.convertStringToGrantedAuthority(authorities));
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (Exception e) {
-            CommonResult<?> commonResult = CommonResult.error(ErrorCodes.FORBIDDEN);
-            ServletUtil.writeJSON(response, commonResult);
-            return;
         }
 
         chain.doFilter(request, response);
