@@ -8,7 +8,7 @@
         <artifactId>main</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>user-service</artifactId>
+    <artifactId>sys-service</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

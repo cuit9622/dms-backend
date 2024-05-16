@@ -1,7 +1,7 @@
-package cuit9622.dms.user.controller;
+package cuit9622.dms.sys.controller;
 
 import cuit9622.dms.common.entity.MenuTree;
-import cuit9622.dms.user.service.MenuService;
+import cuit9622.dms.sys.service.MenuService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

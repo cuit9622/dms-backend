@@ -1,8 +1,8 @@
-package cuit9622.dms.user.controller;
+package cuit9622.dms.sys.controller;
 
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.exception.BizException;
-import cuit9622.dms.user.mapper.UserMapper;
+import cuit9622.dms.sys.mapper.UserMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

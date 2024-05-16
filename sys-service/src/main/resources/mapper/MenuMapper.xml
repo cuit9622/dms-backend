@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cuit9622.dms.user.mapper.MenuMapper">
+<mapper namespace="cuit9622.dms.sys.mapper.MenuMapper">
     <select id="getMenuByUserId" resultType="cuit9622.dms.common.entity.Menu">
         select sm.menu_id,
                parent_id,

@@ -11,14 +11,5 @@ spring:
     nacos:
       discovery:
         server-addr: ${NACOS_SERVER}
-  datasource:
-    url: jdbc:mysql://${MYSQL_SERVER}/dms?useSSL=false&useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: 123456
-  jpa:
-    show-sql: true
-    hibernate:
-      #当表不一致时自动更新
-      ddl-auto: update
 server:
   port: 8080

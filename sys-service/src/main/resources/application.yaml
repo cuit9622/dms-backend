@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://${MYSQL_SERVER}/dms
     username: root
-    password: 123456
+    password: root
   cloud:
     loadbalancer:
       nacos:

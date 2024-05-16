@@ -1,4 +1,4 @@
-package cuit9622.dms.user.mapper;
+package cuit9622.dms.sys.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import cuit9622.dms.common.entity.User;

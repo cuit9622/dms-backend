@@ -25,7 +25,7 @@
         <module>security-starter</module>
         <module>common-starter</module>
         <module>auth</module>
-        <module>user-service</module>
+        <module>sys-service</module>
     </modules>
     <dependencies>
         <dependency>
