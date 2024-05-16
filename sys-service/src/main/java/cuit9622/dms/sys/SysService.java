@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SysApplication {
+public class SysService {
     public static void main(String[] args) {
-        SpringApplication.run(SysApplication.class, args);
+        SpringApplication.run(SysService.class, args);
     }
 }
