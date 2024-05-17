@@ -1,6 +1,6 @@
 import socket
+import subprocess
 import sys
-import winreg
 
 
 def is_valid_ip(ip):
@@ -12,10 +12,8 @@ def is_valid_ip(ip):
 
 
 def set_environment_variable(name, value):
-    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER,
-                         'Environment', 0, winreg.KEY_ALL_ACCESS)
-    winreg.SetValueEx(key, name, 0, winreg.REG_EXPAND_SZ, value)
-    winreg.CloseKey(key)
+    subprocess.run(f"setx {name} {value}", stdout=subprocess.DEVNULL,
+                   stderr=subprocess.DEVNULL, shell=True)
 
 
 env_value = sys.argv[1]
