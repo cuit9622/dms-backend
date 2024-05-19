@@ -1,9 +1,11 @@
 package cuit9622.dms.security.filter;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import cuit9622.dms.common.enums.ErrorCodes;
 import cuit9622.dms.common.model.CommonResult;
 import cuit9622.dms.common.model.DMSUserDetail;
 import cuit9622.dms.common.util.JWTUtils;
+import cuit9622.dms.common.util.JsonUtil;
 import cuit9622.dms.common.util.RedisUtils;
 import cuit9622.dms.common.util.ServletUtil;
 import cuit9622.dms.security.util.SecurityUtil;
@@ -24,7 +26,7 @@ import java.util.List;
 
 public class TokenFilter extends OncePerRequestFilter {
     @Resource
-    RedisTemplate<String, List<String>> redisTemplate;
+    RedisTemplate<String, String> redisTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -34,8 +36,13 @@ public class TokenFilter extends OncePerRequestFilter {
                 Long userId = JWTUtils.getUserId(token);
                 DMSUserDetail userDetails = new DMSUserDetail();
                 userDetails.setID(userId);
-                List<String> authorities = redisTemplate
+                String rawStr = redisTemplate
                         .opsForValue().get(RedisUtils.PERMISSIONS_KEY + userId);
+                List<String> authorities = JsonUtil.parseJson(rawStr, new TypeReference<>() {
+                });
+                if (authorities == null) {
+                    throw new Exception("权限集为空");
+                }
                 //将验证过后的用户信息放入context
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, SecurityUtil.convertStringToGrantedAuthority(authorities));

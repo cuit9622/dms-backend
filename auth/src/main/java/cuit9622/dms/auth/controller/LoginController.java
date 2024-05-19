@@ -1,7 +1,7 @@
 package cuit9622.dms.auth.controller;
 
-import cuit9622.dms.auth.service.UserService;
-import cuit9622.dms.auth.service.client.UserClient;
+import cuit9622.dms.auth.service.LoginService;
+import cuit9622.dms.auth.service.client.SysClient;
 import cuit9622.dms.auth.vo.LoginRepVo;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.exception.BizException;
@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
     @Resource
-    public UserService userService;
+    public LoginService loginService;
     @Resource
-    private UserClient userClient;
+    private SysClient sysClient;
 
     @PermitAll
     @PostMapping("/login")
     public CommonResult<LoginRepVo> login(@RequestBody User user) {
-        return userService.login(user);
+        return loginService.login(user);
     }
 
     @PreAuthorize("hasAuthority('sys:menu:add')")
@@ -42,6 +42,6 @@ public class LoginController {
     @PermitAll
     @GetMapping("/test3")
     public String test3() {
-        return userClient.test();
+        return sysClient.test();
     }
 }

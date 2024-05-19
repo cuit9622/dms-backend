@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "user-service")
-public interface UserClient {
+@FeignClient(name = "sys-service")
+public interface SysClient {
     @GetMapping("/user")
     User getUserByUserName(@RequestParam String username);
 

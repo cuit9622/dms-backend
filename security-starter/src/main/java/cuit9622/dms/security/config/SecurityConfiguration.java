@@ -12,21 +12,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @AutoConfiguration
 @ConditionalOnClass(org.springframework.security.web.SecurityFilterChain.class)
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
     @Resource
     private TokenFilter tokenFilter;
-    @Resource
-    private AuthenticationEntryPoint authenticationEntryPoint;
-    @Resource
-    private AccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -41,9 +35,6 @@ public class SecurityConfiguration {
                 .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
-                .exceptionHandling(it -> it
-                        .accessDeniedHandler(accessDeniedHandler)
-                        .authenticationEntryPoint(authenticationEntryPoint))
                 .headers(it -> it.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 //                .authorizeHttpRequests(it -> it
 //                        .requestMatchers("/api/admin/**").hasRole("ADMIN")

@@ -1,5 +1,6 @@
 package cuit9622.dms.common.util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 
@@ -13,6 +14,17 @@ public class JsonUtil {
 
     @SneakyThrows
     public static <T> T parseJson(String jsonStr, Class<T> clazz) {
+        if (jsonStr == null) {
+            return null;
+        }
         return objectMapper.readValue(jsonStr, clazz);
+    }
+
+    @SneakyThrows
+    public static <T> T parseJson(String jsonStr, TypeReference<T> type) {
+        if (jsonStr == null) {
+            return null;
+        }
+        return objectMapper.readValue(jsonStr, type);
     }
 }

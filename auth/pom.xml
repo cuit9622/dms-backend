@@ -18,10 +18,6 @@
     <dependencies>
         <dependency>
             <groupId>cuit9622.dms</groupId>
-            <artifactId>common-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cuit9622.dms</groupId>
             <artifactId>security-starter</artifactId>
         </dependency>
         <dependency>

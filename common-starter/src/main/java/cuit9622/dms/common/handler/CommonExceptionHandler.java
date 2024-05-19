@@ -25,33 +25,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class CommonExceptionHandler {
     private final String applicationName;
 
-    /*
-    public CommonResult<?> allExceptionHandler(HttpServletRequest request, Exception ex) {
-        if (ex instanceof MissingServletRequestParameterException) {
-            return missingServletRequestParameterExceptionHandler((MissingServletRequestParameterException) ex);
-        }
-        if (ex instanceof MethodArgumentTypeMismatchException) {
-            return methodArgumentTypeMismatchExceptionHandler((MethodArgumentTypeMismatchException) ex);
-        }
-        if (ex instanceof MethodArgumentNotValidException) {
-            return methodArgumentNotValidExceptionExceptionHandler((MethodArgumentNotValidException) ex);
-        }
-        if (ex instanceof BindException) {
-            return bindExceptionHandler((BindException) ex);
-        }
-        if (ex instanceof ConstraintViolationException) {
-            return constraintViolationExceptionHandler((ConstraintViolationException) ex);
-        }
-        if (ex instanceof ValidationException) {
-            return validationException((ValidationException) ex);
-        }
-        if (ex instanceof HttpRequestMethodNotSupportedException) {
-            return httpRequestMethodNotSupportedExceptionHandler((HttpRequestMethodNotSupportedException) ex);
-        }
-        return defaultExceptionHandler(ex);
-    }
-     */
-
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public CommonResult<?> missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
         log.warn("[missingServletRequestParameterExceptionHandler]", ex);
