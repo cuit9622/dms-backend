@@ -14,7 +14,7 @@ import org.springframework.web.reactive.resource.NoResourceFoundException;
 @Order(-1) //提升优先级
 public class GatewayExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
-    public CommonResult<?> httpRequestMethodNotSupportedExceptionHandler(NoResourceFoundException ex) {
+    public CommonResult<?> noResourceFoundExceptionHandler(NoResourceFoundException ex) {
         log.warn("[NoResourceFoundException]", ex);
         return CommonResult.error(ErrorCodes.NOT_FOUND);
     }
