@@ -1,30 +1,40 @@
 package cuit9622.dms.auth.controller;
 
-import cuit9622.dms.auth.service.LoginService;
+import cuit9622.dms.auth.service.AuthService;
 import cuit9622.dms.auth.service.client.SysClient;
 import cuit9622.dms.auth.vo.LoginRepVo;
+import cuit9622.dms.auth.vo.LoginReqVo;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.exception.BizException;
 import cuit9622.dms.common.model.CommonResult;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class LoginController {
+public class AuthController {
     @Resource
-    public LoginService loginService;
+    public AuthService authService;
     @Resource
     private SysClient sysClient;
 
     @PermitAll
     @PostMapping("/login")
-    public CommonResult<LoginRepVo> login(@RequestBody User user) {
-        return loginService.login(user);
+    public CommonResult<LoginRepVo> login(@RequestBody LoginReqVo loginReqVo) {
+        return authService.login(loginReqVo);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/token")
+    public CommonResult<User> token(@RequestHeader("token") String token) {
+        return authService.token();
+    }
+
+    @PermitAll
+    @GetMapping("/logout")
+    public CommonResult<?> logout() {
+        return authService.logout();
     }
 
     @PreAuthorize("hasAuthority('sys:menu:add')")

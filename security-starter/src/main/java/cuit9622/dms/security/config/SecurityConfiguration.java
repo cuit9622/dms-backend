@@ -36,6 +36,7 @@ public class SecurityConfiguration {
                 .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .headers(it -> it.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .logout(AbstractHttpConfigurer::disable)
 //                .authorizeHttpRequests(it -> it
 //                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
 //                        .anyRequest().permitAll()

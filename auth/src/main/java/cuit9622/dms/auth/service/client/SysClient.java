@@ -14,6 +14,9 @@ public interface SysClient {
     @GetMapping("/user")
     User getUserByUserName(@RequestParam String username);
 
+    @GetMapping("/user/{userId}")
+    User getUserById(@PathVariable Long userId);
+
     @GetMapping("/authorities")
     List<String> getAuthoritiesByUserId(@RequestParam Long userId);
 

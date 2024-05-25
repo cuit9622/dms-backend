@@ -29,7 +29,7 @@ public class SecurityExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public CommonResult<?> authenticationExceptionHandler(HttpServletRequest req, org.springframework.security.core.AuthenticationException e) {
+    public CommonResult<?> authenticationExceptionHandler(HttpServletRequest req, AuthenticationException e) {
         log.warn("[authenticationExceptionHandler][ 无法访问 url({})]",
                 req.getRequestURL(), e);
         return CommonResult.error(ErrorCodes.UNAUTHORIZED);

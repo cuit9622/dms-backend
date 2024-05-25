@@ -1,5 +1,6 @@
 package cuit9622.dms.security.filter;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import cuit9622.dms.common.enums.ErrorCodes;
 import cuit9622.dms.common.model.CommonResult;
@@ -15,14 +16,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 public class TokenFilter extends OncePerRequestFilter {
     @Resource
@@ -34,21 +38,31 @@ public class TokenFilter extends OncePerRequestFilter {
         if (StringUtils.hasLength(token)) {
             try {
                 Long userId = JWTUtils.getUserId(token);
+                String cacheToken = redisTemplate
+                        .opsForValue().get(RedisUtils.TOKEN_KEY + userId);
+                if (cacheToken == null || !cacheToken.equals(token)) {
+                    throw new BadCredentialsException("Token error");
+                }
                 DMSUserDetail userDetails = new DMSUserDetail();
                 userDetails.setID(userId);
                 String rawStr = redisTemplate
                         .opsForValue().get(RedisUtils.PERMISSIONS_KEY + userId);
-                List<String> authorities = JsonUtil.parseJson(rawStr, new TypeReference<>() {
+                ArrayList<String> authorities = JsonUtil.parseJson(rawStr, new TypeReference<>() {
                 });
                 if (authorities == null) {
-                    throw new Exception("权限集为空");
+                    throw new AccessDeniedException("No permission");
                 }
+
                 //将验证过后的用户信息放入context
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, SecurityUtil.convertStringToGrantedAuthority(authorities));
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (Exception e) {
+            } catch (JWTVerificationException | AuthenticationException e) {
+                CommonResult<?> commonResult = CommonResult.error(ErrorCodes.UNAUTHORIZED);
+                ServletUtil.writeJSON(response, commonResult);
+                return;
+            } catch (AccessDeniedException e) {
                 CommonResult<?> commonResult = CommonResult.error(ErrorCodes.FORBIDDEN);
                 ServletUtil.writeJSON(response, commonResult);
                 return;

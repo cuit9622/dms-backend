@@ -1,5 +1,6 @@
 package cuit9622.dms.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.util.Date;
 /**
  * @TableName sys_user
  */
+@TableName("sys_user")
 @Data
 public class User implements Serializable {
 
