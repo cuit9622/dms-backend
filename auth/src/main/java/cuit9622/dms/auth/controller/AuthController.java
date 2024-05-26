@@ -2,6 +2,7 @@ package cuit9622.dms.auth.controller;
 
 import cuit9622.dms.auth.service.AuthService;
 import cuit9622.dms.auth.service.client.SysClient;
+import cuit9622.dms.auth.vo.ChangePasswordVo;
 import cuit9622.dms.auth.vo.LoginRepVo;
 import cuit9622.dms.auth.vo.LoginReqVo;
 import cuit9622.dms.auth.vo.TokenRepVo;
@@ -10,10 +11,7 @@ import cuit9622.dms.common.model.CommonResult;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthController {
@@ -38,6 +36,12 @@ public class AuthController {
     @GetMapping("/logout")
     public CommonResult<?> logout() {
         return authService.logout();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/password")
+    public CommonResult<?> changePassword(@RequestBody ChangePasswordVo body) {
+        return authService.changePassword(body);
     }
 
     @PreAuthorize("hasAuthority('sys:menu:add')")

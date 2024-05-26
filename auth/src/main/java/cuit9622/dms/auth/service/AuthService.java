@@ -1,5 +1,6 @@
 package cuit9622.dms.auth.service;
 
+import cuit9622.dms.auth.vo.ChangePasswordVo;
 import cuit9622.dms.auth.vo.LoginRepVo;
 import cuit9622.dms.auth.vo.LoginReqVo;
 import cuit9622.dms.auth.vo.TokenRepVo;
@@ -11,4 +12,6 @@ public interface AuthService {
     CommonResult<TokenRepVo> token();
 
     CommonResult<?> logout();
+
+    CommonResult<?> changePassword(ChangePasswordVo body);
 }

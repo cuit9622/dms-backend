@@ -7,6 +7,7 @@ import cuit9622.dms.auth.vo.*;
 import cuit9622.dms.common.entity.MenuTree;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.exception.BizException;
+import cuit9622.dms.common.model.ChangePasswordModel;
 import cuit9622.dms.common.model.CommonResult;
 import cuit9622.dms.common.util.*;
 import cuit9622.dms.security.util.SecurityUtil;
@@ -76,5 +77,21 @@ public class AuthServiceImpl implements AuthService {
         redisTemplate.delete(RedisUtils.TOKEN_KEY + userID);
         redisTemplate.delete(RedisUtils.PERMISSIONS_KEY + userID);
         return CommonResult.success("");
+    }
+
+    @Override
+    public CommonResult<?> changePassword(ChangePasswordVo body) {
+        Long userID = SecurityUtil.getUserID();
+        User user = sysClient.getUserById(userID);
+        if (!DigestsUtils.matches(body.getOldPassword(), user.getSalt(), user.getPassword())) {
+            throw new BizException("旧密码错误");
+        }
+        Integer count = sysClient.changePassword(new ChangePasswordModel(userID, body.getNewPassword()));
+        if (count != 1) {
+            throw new BizException();
+        }
+        redisTemplate.delete(RedisUtils.TOKEN_KEY + userID);
+        redisTemplate.delete(RedisUtils.PERMISSIONS_KEY + userID);
+        return CommonResult.success(null);
     }
 }

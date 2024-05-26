@@ -1,16 +1,18 @@
 package cuit9622.dms.sys.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.exception.BizException;
+import cuit9622.dms.common.model.ChangePasswordModel;
+import cuit9622.dms.common.util.DigestsUtils;
 import cuit9622.dms.sys.mapper.UserMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -32,6 +34,16 @@ public class UserApiController {
     @GetMapping("/authorities")
     public List<String> getAuthoritiesByUserId(Long userId) {
         return userMapper.getAuthorities(userId);
+    }
+
+    @PutMapping("/password")
+    Integer changePassword(@RequestBody ChangePasswordModel data) {
+        Map<String, String> map = DigestsUtils.encrypt(data.getNewPassword());
+        return userMapper.update(new LambdaUpdateWrapper<User>()
+                .set(User::getPassword, map.get("password"))
+                .set(User::getSalt, map.get("salt"))
+                .eq(User::getUserId, data.getUserId())
+        );
     }
 
     @GetMapping("/test")
