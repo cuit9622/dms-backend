@@ -1,22 +1,14 @@
-package cuit9622.dms.common.entity;
+package cuit9622.dms.auth.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
-@TableName("sys_user")
 @Data
-public class User implements Serializable {
-
+public class TokenRepVo {
     private Long userId;
 
     private String username;
-
-    private String password;
-
-    private String salt;
 
     private String phone;
 
@@ -29,5 +21,4 @@ public class User implements Serializable {
     private Date createTime;
 
     private Date updateTime;
-
 }

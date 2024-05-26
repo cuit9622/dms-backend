@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -18,7 +19,7 @@ public class SecurityExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public CommonResult<?> accessDeniedExceptionHandler(HttpServletRequest req, AccessDeniedException e) {
         String token = req.getHeader("token");
-        if (token == null) {
+        if (!StringUtils.hasLength(token)) {
             log.warn("[authenticationExceptionHandler][ 无法访问 url({})]",
                     req.getRequestURL(), e);
             return CommonResult.error(ErrorCodes.UNAUTHORIZED);

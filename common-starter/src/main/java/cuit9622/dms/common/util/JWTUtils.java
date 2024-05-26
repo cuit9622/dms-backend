@@ -2,6 +2,7 @@ package cuit9622.dms.common.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -16,6 +17,8 @@ public class JWTUtils {
     private static final String SECRET_KEY = "SJD(O!I@#()SKD<?X<?Z<D)P:K@_)#IO)_SI[KDL;AO)PQ@I#FKDJNFKL";
 
     public static final Integer EXPIRE_TIME = 3;
+
+    public static final JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET_KEY)).build();
 
     public static String creatToken(Long userId) {
 
@@ -49,7 +52,7 @@ public class JWTUtils {
     }
 
     public static DecodedJWT verify(String token) throws JWTVerificationException {
-        return JWT.require(Algorithm.HMAC256(SECRET_KEY)).build().verify(token);
+        return verifier.verify(token);
     }
 
     public static Long getUserId(String token) {

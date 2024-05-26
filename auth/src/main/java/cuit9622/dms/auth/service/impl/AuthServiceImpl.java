@@ -1,11 +1,9 @@
 package cuit9622.dms.auth.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cuit9622.dms.auth.service.AuthService;
 import cuit9622.dms.auth.service.client.SysClient;
-import cuit9622.dms.auth.vo.CloudflareRepVo;
-import cuit9622.dms.auth.vo.CloudflareReqVo;
-import cuit9622.dms.auth.vo.LoginRepVo;
-import cuit9622.dms.auth.vo.LoginReqVo;
+import cuit9622.dms.auth.vo.*;
 import cuit9622.dms.common.entity.MenuTree;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.exception.BizException;
@@ -64,9 +62,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public CommonResult<User> token() {
+    public CommonResult<TokenRepVo> token() {
         Long userID = SecurityUtil.getUserID();
-        return CommonResult.success(sysClient.getUserById(userID));
+        User user = sysClient.getUserById(userID);
+        TokenRepVo tokenRepVo = new TokenRepVo();
+        BeanUtil.copyProperties(user, tokenRepVo);
+        return CommonResult.success(tokenRepVo);
     }
 
     @Override
