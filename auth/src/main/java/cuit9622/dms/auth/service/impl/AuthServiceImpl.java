@@ -1,17 +1,18 @@
 package cuit9622.dms.auth.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cuit9622.dms.auth.service.AuthService;
 import cuit9622.dms.auth.service.client.SysClient;
 import cuit9622.dms.auth.vo.*;
 import cuit9622.dms.common.entity.MenuTree;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.exception.BizException;
+import cuit9622.dms.common.model.ChangeInfoModel;
 import cuit9622.dms.common.model.ChangePasswordModel;
 import cuit9622.dms.common.model.CommonResult;
 import cuit9622.dms.common.util.*;
 import cuit9622.dms.security.util.SecurityUtil;
 import jakarta.annotation.Resource;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -67,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
         Long userID = SecurityUtil.getUserID();
         User user = sysClient.getUserById(userID);
         TokenRepVo tokenRepVo = new TokenRepVo();
-        BeanUtil.copyProperties(user, tokenRepVo);
+        BeanUtils.copyProperties(user, tokenRepVo);
         return CommonResult.success(tokenRepVo);
     }
 
@@ -92,6 +93,16 @@ public class AuthServiceImpl implements AuthService {
         }
         redisTemplate.delete(RedisUtils.TOKEN_KEY + userID);
         redisTemplate.delete(RedisUtils.PERMISSIONS_KEY + userID);
+        return CommonResult.success(null);
+    }
+
+    @Override
+    public CommonResult<?> changeInfo(ChangeInfoVo body) {
+        Long id = SecurityUtil.getUserID();
+        ChangeInfoModel changeInfoModel = new ChangeInfoModel();
+        changeInfoModel.setUserId(id);
+        BeanUtils.copyProperties(body, changeInfoModel);
+        sysClient.changeInfo(changeInfoModel);
         return CommonResult.success(null);
     }
 }

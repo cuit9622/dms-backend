@@ -2,6 +2,7 @@ package cuit9622.dms.auth.service.client;
 
 import cuit9622.dms.common.entity.MenuTree;
 import cuit9622.dms.common.entity.User;
+import cuit9622.dms.common.model.ChangeInfoModel;
 import cuit9622.dms.common.model.ChangePasswordModel;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,9 @@ public interface SysClient {
 
     @PutMapping("/password")
     Integer changePassword(@RequestBody ChangePasswordModel data);
+
+    @PutMapping("/info")
+    Integer changeInfo(@RequestBody ChangeInfoModel data);
 
     @GetMapping("/test")
     String test();

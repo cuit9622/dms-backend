@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.exception.BizException;
+import cuit9622.dms.common.model.ChangeInfoModel;
 import cuit9622.dms.common.model.ChangePasswordModel;
 import cuit9622.dms.common.util.DigestsUtils;
 import cuit9622.dms.sys.mapper.UserMapper;
@@ -44,6 +45,14 @@ public class UserApiController {
                 .set(User::getSalt, map.get("salt"))
                 .eq(User::getUserId, data.getUserId())
         );
+    }
+
+    @PutMapping("/info")
+    Integer changeInfo(@RequestBody ChangeInfoModel data) {
+        return userMapper.update(new LambdaUpdateWrapper<User>()
+                .set(User::getPhone, data.getPhone())
+                .set(User::getAvatar, data.getAvatar())
+                .eq(User::getUserId, data.getUserId()));
     }
 
     @GetMapping("/test")
