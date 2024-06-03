@@ -12,6 +12,8 @@ spring:
     nacos:
       discovery:
         server-addr: ${NACOS_SERVER}
+        metadata:
+          public: #只要有public键就行，不读取值
 
 server:
   port: 0

@@ -11,24 +11,24 @@ import java.util.List;
 
 @FeignClient(name = "sys-service")
 public interface SysClient {
-    @GetMapping("/user")
+    @GetMapping("/api/user")
     User getUserByUserName(@RequestParam String username);
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/api/user/{userId}")
     User getUserById(@PathVariable Long userId);
 
-    @GetMapping("/authorities")
+    @GetMapping("/api/authorities")
     List<String> getAuthoritiesByUserId(@RequestParam Long userId);
 
-    @GetMapping("/tree/{userId}")
+    @GetMapping("/api/tree/{userId}")
     List<MenuTree> getMenuTree(@PathVariable Long userId);
 
-    @PutMapping("/password")
+    @PutMapping("/api/password")
     Integer changePassword(@RequestBody ChangePasswordModel data);
 
-    @PutMapping("/info")
+    @PutMapping("/api/info")
     Integer changeInfo(@RequestBody ChangeInfoModel data);
 
-    @GetMapping("/test")
+    @GetMapping("/api/test")
     String test();
 }

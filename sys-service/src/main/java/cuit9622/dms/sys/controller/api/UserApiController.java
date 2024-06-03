@@ -1,4 +1,4 @@
-package cuit9622.dms.sys.controller;
+package cuit9622.dms.sys.controller.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -17,6 +17,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@RequestMapping("/api")
 public class UserApiController {
 
     @Resource
