@@ -20,5 +20,6 @@
                  inner join sys_role_menu srm on srm.role_id = sur.role_id
                  inner join sys_menu sm on sm.menu_id = srm.menu_id
         where sur.user_id = #{userId}
+        order by order_num;
     </select>
 </mapper>
