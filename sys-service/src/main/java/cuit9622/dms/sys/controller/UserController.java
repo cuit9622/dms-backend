@@ -7,12 +7,15 @@ import cuit9622.dms.common.model.CommonResult;
 import cuit9622.dms.sys.service.UserService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Resource
@@ -21,7 +24,8 @@ public class UserController {
     /**
      * 分页获取用户信息
      */
-    @GetMapping("/users")
+    @GetMapping("/list")
+    @PreAuthorize("hasAuthority('sys:user:index')")
     public CommonResult<Page<User>> getUsers(@RequestParam int page, @RequestParam int pageSize) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.select(User::getUserId, User::getNickName, User::getPhone, User::getUsername);
