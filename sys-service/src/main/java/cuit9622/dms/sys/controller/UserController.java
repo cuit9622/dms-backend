@@ -5,13 +5,21 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.model.CommonResult;
 import cuit9622.dms.common.model.DMSUserDetail;
+import cuit9622.dms.common.util.DigestsUtils;
+import cuit9622.dms.sys.Vo.UserVo;
+import cuit9622.dms.sys.entity.UserRole;
+import cuit9622.dms.sys.mapper.RoleMapper;
+import cuit9622.dms.sys.mapper.UserRoleMapper;
 import cuit9622.dms.sys.service.UserService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -21,6 +29,12 @@ public class UserController {
 
     @Resource
     UserService userService;
+
+    @Resource
+    RoleMapper roleMapper;
+
+    @Resource
+    UserRoleMapper userRoleMapper;
 
     /**
      * 分页获取用户信息
@@ -37,7 +51,7 @@ public class UserController {
     /*
     根据username获取用户
      */
-    @GetMapping("/username/{username}/{isEdit}")
+    @GetMapping("/{username}/{isEdit}")
     @PreAuthorize("hasAuthority('sys:user:index')")
     public CommonResult<Boolean> checkUsername(@PathVariable String username, @PathVariable boolean isEdit) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
@@ -59,17 +73,34 @@ public class UserController {
      */
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('sys:user:add')")
-    public CommonResult<String> add(@RequestBody User user) {
+    @Transactional
+    public CommonResult<String> add(@RequestBody UserVo user) {
         System.out.println(user);
+        // 修改时间
+        user.setCreateTime(new Date());
+        user.setUpdateTime(new Date());
+        // 创建密码
+        Map<String, String> map = DigestsUtils.getPassword();
+        String salt = map.get(DigestsUtils.SALT);
+        String pwd = map.get(DigestsUtils.PASSWORD);
+        user.setSalt(salt);
+        user.setPassword(pwd);
+        userService.save(user);
+
+        // 添加角色信息
+        UserRole userRole = new UserRole();
+        userRole.setRoleId(user.getRoleId());
+        userRole.setUserId(user.getUserId());
+        userRoleMapper.insert(userRole);
         return CommonResult.success("添加成功");
     }
 
     /**
      * 编辑用户
      */
-    @PutMapping("/edit/{userId}")
+    @PutMapping("/edit")
     @PreAuthorize("hasAuthority('sys:user:update')")
-    public CommonResult<String> update(@RequestBody User user, @PathVariable Long userId) {
+    public CommonResult<String> update(@RequestBody User user) {
         System.out.println(user);
         return CommonResult.success("修改成功");
     }
