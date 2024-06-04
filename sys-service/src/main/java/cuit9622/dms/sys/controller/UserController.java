@@ -29,7 +29,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('sys:user:index')")
     public CommonResult<Page<User>> getUsers(@RequestParam int page, @RequestParam int pageSize) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.select(User::getUserId, User::getNickName, User::getPhone, User::getUsername);
+        wrapper.select(User::getUserId, User::getNickName, User::getPhone, User::getUsername, User::getSex);
         Page<User> result = userService.page(new Page<>(page, pageSize), wrapper);
         return CommonResult.success(result);
     }
@@ -52,5 +52,25 @@ public class UserController {
             }
         }
         return CommonResult.success(Objects.isNull(result));
+    }
+
+    /**
+     * 添加用户
+     */
+    @PostMapping("/add")
+    @PreAuthorize("hasAuthority('sys:user:add')")
+    public CommonResult<String> add(@RequestBody User user) {
+        System.out.println(user);
+        return CommonResult.success("添加成功");
+    }
+
+    /**
+     * 编辑用户
+     */
+    @PutMapping("/edit/{userId}")
+    @PreAuthorize("hasAuthority('sys:user:update')")
+    public CommonResult<String> update(@RequestBody User user, @PathVariable Long userId) {
+        System.out.println(user);
+        return CommonResult.success("修改成功");
     }
 }
