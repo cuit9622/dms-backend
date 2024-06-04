@@ -4,14 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.model.CommonResult;
+import cuit9622.dms.common.model.DMSUserDetail;
 import cuit9622.dms.sys.service.UserService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -33,4 +34,23 @@ public class UserController {
         return CommonResult.success(result);
     }
 
+    /*
+    根据username获取用户
+     */
+    @GetMapping("/username/{username}/{isEdit}")
+    @PreAuthorize("hasAuthority('sys:user:index')")
+    public CommonResult<Boolean> checkUsername(@PathVariable String username, @PathVariable boolean isEdit) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(username != null, User::getUsername, username);
+        User result = userService.getOne(wrapper);
+        // 判断当前登录的用户是否和查到的相同
+        if (isEdit && result != null) {
+            Long userId = result.getUserId();
+            Long id = ((DMSUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getID();
+            if (userId == id) {
+                return CommonResult.success(true);
+            }
+        }
+        return CommonResult.success(Objects.isNull(result));
+    }
 }
