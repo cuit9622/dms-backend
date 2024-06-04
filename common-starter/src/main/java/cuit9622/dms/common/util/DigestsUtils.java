@@ -16,6 +16,16 @@ public class DigestsUtils {
     // 迭代次数
     public static final Integer ITERATIONS = 520;
 
+    public static final String DEFAULT_PASSWORD = "dms123456";
+
+    public static final String SALT = "salt";
+
+    public static final String PASSWORD = "password";
+
+    public static Map<String, String> getPassword() {
+        return encrypt(DEFAULT_PASSWORD);
+    }
+
     /**
      * @param text 明文
      * @param salt 加密盐
@@ -46,8 +56,8 @@ public class DigestsUtils {
         Map<String, String> map = new HashMap<>();
         String salt = createSalt();
         String password = sha1(text, salt);
-        map.put("salt", salt);
-        map.put("password", password);
+        map.put(SALT, salt);
+        map.put(PASSWORD, password);
         return map;
     }
 
