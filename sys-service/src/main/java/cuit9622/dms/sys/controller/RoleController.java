@@ -1,7 +1,10 @@
 package cuit9622.dms.sys.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import cuit9622.dms.common.entity.Role;
 import cuit9622.dms.common.model.CommonResult;
+import cuit9622.dms.sys.mapper.RoleMapper;
+import cuit9622.dms.sys.mapper.UserMapper;
 import cuit9622.dms.sys.service.RoleService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,9 @@ public class RoleController {
     @Resource
     RoleService roleService;
 
+    @Resource
+    RoleMapper roleMapper;
+
 
     /**
      * 查询所有角色
@@ -40,7 +46,8 @@ public class RoleController {
      */
     @GetMapping("/list/{id}")
     @PreAuthorize("hasAuthority('sys:role:index')")
-    public CommonResult<Role> getRoleById(@PathVariable("id") int id) {
-        return CommonResult.success(roleService.getById(id));
+    public CommonResult<Role> getRoleById(@PathVariable("id") Long id) {
+        Role role = roleMapper.getRoleByUserID(id);
+        return CommonResult.success(role);
     }
 }
