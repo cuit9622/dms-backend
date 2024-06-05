@@ -42,7 +42,7 @@ public class UserController {
      */
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('sys:user:index')")
-    public CommonResult<Page<User>> search(@RequestParam int page, @RequestParam int pageSize, @RequestParam(required = false) String nickname) {
+    public CommonResult<Page<User>> search(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int pageSize, @RequestParam(required = false) String nickname) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.select(User::getUserId, User::getNickName, User::getPhone, User::getUsername, User::getSex)
                 .like(nickname != null, User::getNickName, nickname);
