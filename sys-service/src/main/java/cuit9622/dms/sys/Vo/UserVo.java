@@ -6,4 +6,6 @@ import lombok.Data;
 @Data
 public class UserVo extends User {
     private Long roleId;
+
+    private boolean resetPassword;
 }

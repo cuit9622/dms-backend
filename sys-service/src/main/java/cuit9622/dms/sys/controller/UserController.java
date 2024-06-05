@@ -1,6 +1,7 @@
 package cuit9622.dms.sys.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.model.CommonResult;
@@ -58,14 +59,6 @@ public class UserController {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(username != null, User::getUsername, username);
         User result = userService.getOne(wrapper);
-        // 判断当前登录的用户是否和查到的相同
-        if (isEdit && result != null) {
-            Long userId = result.getUserId();
-            Long id = ((DMSUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getID();
-            if (userId == id) {
-                return CommonResult.success(true);
-            }
-        }
         return CommonResult.success(Objects.isNull(result));
     }
 
@@ -99,10 +92,34 @@ public class UserController {
     /**
      * 编辑用户
      */
-    @PutMapping("/edit")
+    @PutMapping("/edit/{userId}")
     @PreAuthorize("hasAuthority('sys:user:update')")
-    public CommonResult<String> update(@RequestBody User user) {
+    @Transactional
+    public CommonResult<String> update(@RequestBody UserVo user, @PathVariable Long userId) {
         System.out.println(user);
+        user.setUserId(userId);
+        user.setUpdateTime(new Date());
+        // 是否重置密码
+        if (user.isResetPassword()) {
+            Map<String, String> map = DigestsUtils.getPassword();
+            String salt = map.get(DigestsUtils.SALT);
+            String pwd = map.get(DigestsUtils.PASSWORD);
+            user.setSalt(salt);
+            user.setPassword(pwd);
+        }
+        LambdaUpdateWrapper<User> wrapper = new LambdaUpdateWrapper<>();
+        // 修改角色信息
+        if (user.getRoleId() != null) {
+            userRoleMapper.updateRole(userId, user.getRoleId());
+        }
+        // 修改其他信息
+        wrapper.set(User::getUsername, user.getUsername())
+                .set(User::getPhone, user.getPhone())
+                .set(User::getNickName, user.getNickName())
+                .set(User::getSex, user.getSex())
+                .set(User::getUpdateTime, user.getUpdateTime())
+                .eq(User::getUserId, user.getUserId());
+        userService.update(wrapper);
         return CommonResult.success("修改成功");
     }
 }
