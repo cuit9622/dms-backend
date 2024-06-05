@@ -9,5 +9,8 @@ import org.apache.ibatis.annotations.Update;
 public interface UserRoleMapper extends BaseMapper<UserRole> {
 
     @Update("update sys_user_role set role_id = #{roleId} where user_id = #{userId}")
-    int updateRole(Long userId, Long roleId);
+    void updateRole(Long userId, Long roleId);
+
+    @Update("delete from sys_user_role where user_id = #{userId}")
+    void deleteUserRoleById(Long userId);
 }
