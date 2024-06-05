@@ -63,6 +63,14 @@ public class UserController {
     }
 
     /**
+     * 根据id查询用户信息
+     */
+    @GetMapping("/{userId}")
+    public CommonResult<User> getUserById(@PathVariable Long userId){
+        return CommonResult.success(userService.getById(userId));
+    }
+
+    /**
      * 添加用户
      */
     @PostMapping("/add")
@@ -121,5 +129,13 @@ public class UserController {
                 .eq(User::getUserId, user.getUserId());
         userService.update(wrapper);
         return CommonResult.success("修改成功");
+    }
+
+    @PutMapping("/delete/{userId}")
+    @PreAuthorize("hasAuthority('sys:user:delete')")
+    @Transactional
+    public CommonResult<String> delete(@PathVariable Long userId) {
+
+        return CommonResult.success("删除成功");
     }
 }
