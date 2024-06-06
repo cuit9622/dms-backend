@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cuit9622.dms.common.entity.Menu;
 import cuit9622.dms.common.entity.Role;
+import cuit9622.dms.common.util.RedisUtils;
 import cuit9622.dms.sys.entity.MenuRole;
 import cuit9622.dms.sys.entity.UserRole;
 import cuit9622.dms.sys.mapper.MenuMapper;
@@ -12,6 +13,7 @@ import cuit9622.dms.sys.mapper.RoleMapper;
 import cuit9622.dms.sys.mapper.UserRoleMapper;
 import cuit9622.dms.sys.service.MenuRoleService;
 import cuit9622.dms.sys.service.RoleService;
+import cuit9622.dms.sys.tools.AuthTools;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
 
     @Resource
     MenuMapper menuMapper;
+
+    @Resource
+    AuthTools authTools;
 
     @Override
     public boolean allotPermissions(List<Long> permissions, Long roleId) {
@@ -63,6 +68,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
             menuRole.setMenuId(menId);
             menuRoles.add(menuRole);
         }
+
+        // 清除token
+        // 获取当前角色的所有用户
+        LambdaQueryWrapper<UserRole> userRoleLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userRoleLambdaQueryWrapper.eq(UserRole::getRoleId, roleId);
+        List<Long> roleList = userRoleMapper.selectList(userRoleLambdaQueryWrapper).stream().map(UserRole::getUserId).toList();
+        authTools.deleteByUserId(roleList);
         return menuRoleService.saveBatch(menuRoles);
     }
 }

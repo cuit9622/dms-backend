@@ -41,7 +41,7 @@ public class UserController {
      * 搜索
      */
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('sys:user:index')")
+    @PreAuthorize("hasAuthority('sys:user:list')")
     public CommonResult<Page<User>> search(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int pageSize, @RequestParam(required = false) String nickname) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.select(User::getUserId, User::getNickName, User::getPhone, User::getUsername, User::getSex)
@@ -54,7 +54,7 @@ public class UserController {
     根据username获取用户
      */
     @GetMapping("/{username}/{isEdit}")
-    @PreAuthorize("hasAuthority('sys:user:index')")
+    @PreAuthorize("hasAuthority('sys:user:list')")
     public CommonResult<Boolean> checkUsername(@PathVariable String username, @PathVariable boolean isEdit) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(username != null, User::getUsername, username);

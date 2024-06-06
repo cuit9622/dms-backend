@@ -25,7 +25,7 @@ public class MenuController {
      * @return
      */
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('sys:menu:index')")
+    @PreAuthorize("hasAuthority('sys:menu:list')")
     public CommonResult<List<MenuTree>> getMenuTree() {
         return CommonResult.success(menuService.allTreeMenu());
     }
@@ -36,7 +36,7 @@ public class MenuController {
      * @return
      */
     @GetMapping("/list/{id}")
-    @PreAuthorize("hasAuthority('sys:menu:index')")
+    @PreAuthorize("hasAuthority('sys:menu:list')")
     public CommonResult<List<Long>> getMenuTreeById(@PathVariable Long id) {
         return CommonResult.success(menuService.getTreeMenuByRoleId(id));
     }

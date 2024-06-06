@@ -14,7 +14,6 @@ import cuit9622.dms.sys.mapper.UserRoleMapper;
 import cuit9622.dms.sys.service.RoleService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +43,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("/list/{id}")
-    @PreAuthorize("hasAuthority('sys:role:index')")
+    @PreAuthorize("hasAuthority('sys:role:list')")
     public CommonResult<Role> getRoleById(@PathVariable("id") Long id) {
         Role role = roleMapper.getRoleByUserID(id);
         return CommonResult.success(role);
@@ -54,7 +53,7 @@ public class RoleController {
      * 查询所有角色
      */
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('sys:role:index')")
+    @PreAuthorize("hasAuthority('sys:role:list')")
     public CommonResult<List<Role>> list() {
         return CommonResult.success(roleService.list());
     }
@@ -63,7 +62,7 @@ public class RoleController {
      * 搜索查询所有角色
      */
     @GetMapping("/page")
-    @PreAuthorize("hasAuthority('sys:role:index')")
+    @PreAuthorize("hasAuthority('sys:role:list')")
     public CommonResult<Page<Role>> pageSearch(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int pageSize, @RequestParam(required = false) String roleName) {
         LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(roleName != null, Role::getRoleName, roleName);
