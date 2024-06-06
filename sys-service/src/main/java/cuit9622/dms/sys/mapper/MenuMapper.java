@@ -2,6 +2,7 @@ package cuit9622.dms.sys.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import cuit9622.dms.common.entity.Menu;
+import cuit9622.dms.sys.Vo.UserRoleVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,5 +14,5 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
     List<Menu> getMenus();
 
-    List<Menu> getMenusByRoleId(@Param("roleId") Long roleId);
+    List<UserRoleVo> getMenusByRoleId(@Param("roleId") Long roleId);
 }

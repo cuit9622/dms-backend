@@ -30,9 +30,14 @@ public class MenuController {
         return CommonResult.success(menuService.allTreeMenu());
     }
 
+    /**
+     * 获取改角色的菜单的id用于回显菜单数据
+     * @param id
+     * @return
+     */
     @GetMapping("/list/{id}")
     @PreAuthorize("hasAuthority('sys:menu:index')")
-    public CommonResult<List<MenuTree>> getMenuTreeById(@PathVariable Long id) {
+    public CommonResult<List<Long>> getMenuTreeById(@PathVariable Long id) {
         return CommonResult.success(menuService.getTreeMenuByRoleId(id));
     }
 }

@@ -11,6 +11,6 @@ public interface MenuService extends IService<Menu> {
 
     List<MenuTree> allTreeMenu();
 
-    List<MenuTree> getTreeMenuByRoleId(Long roleId);
+    List<Long> getTreeMenuByRoleId(Long roleId);
 
 }

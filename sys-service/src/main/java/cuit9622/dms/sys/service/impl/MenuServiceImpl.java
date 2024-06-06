@@ -3,15 +3,14 @@ package cuit9622.dms.sys.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cuit9622.dms.common.entity.Menu;
 import cuit9622.dms.common.entity.MenuTree;
+import cuit9622.dms.sys.Vo.UserRoleVo;
 import cuit9622.dms.sys.mapper.MenuMapper;
 import cuit9622.dms.sys.service.MenuService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -60,20 +59,15 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>
     }
 
     @Override
-    public List<MenuTree> getTreeMenuByRoleId(Long roleId) {
-        List<Menu> menus = menuMapper.getMenusByRoleId(roleId);
-        Map<Long, MenuTree> map = new HashMap<>();
-        List<MenuTree> list = new ArrayList<>();
-        // 将数据全部放在map集合中
-        for (Menu menu : menus) {
-            MenuTree menuTree = new MenuTree();
-            menuTree.setMenu(menu);
-            if (menu.getParentId() == 0) {
-                list.add(menuTree);
-            }
-            map.put(menu.getMenuId(), menuTree);
-        }
-        return getMenuTrees(map, list);
+    public List<Long> getTreeMenuByRoleId(Long roleId) {
+        List<UserRoleVo> menusByRoleId = menuMapper.getMenusByRoleId(roleId);
+        // 获取所有id
+        List<Long> menus = new ArrayList<>(menusByRoleId.stream().map(UserRoleVo::getMenuId).toList());
+        List<Long> parentIds = menusByRoleId.stream().map(UserRoleVo::getParentId).toList();
+
+        // 移除父id
+        menus.removeAll(parentIds);
+        return menus;
     }
 
     private List<MenuTree> getMenuTrees(Map<Long, MenuTree> map, List<MenuTree> list) {
