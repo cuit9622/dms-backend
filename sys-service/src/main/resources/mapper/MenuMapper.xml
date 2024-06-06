@@ -23,7 +23,7 @@
         order by order_num;
     </select>
     <select id="getMenus" resultType="cuit9622.dms.common.entity.Menu">
-        select distinct sm.menu_id,
+        select distinct menu_id,
                         parent_id,
                         title,
                         code,
@@ -35,8 +35,7 @@
                         icon,
                         parent_name,
                         order_num
-        from sys_menu sm
-                 inner join sys_role_menu srm on srm.menu_id = sm.menu_id
+        from sys_menu
         order by order_num;
     </select>
     <select id="getMenusByRoleId" resultType="cuit9622.dms.sys.Vo.UserRoleVo">
