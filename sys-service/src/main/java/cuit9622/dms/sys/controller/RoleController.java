@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cuit9622.dms.common.entity.Role;
 import cuit9622.dms.common.exception.BizException;
 import cuit9622.dms.common.model.CommonResult;
+import cuit9622.dms.sys.entity.UserRole;
 import cuit9622.dms.sys.mapper.RoleMapper;
+import cuit9622.dms.sys.mapper.UserRoleMapper;
 import cuit9622.dms.sys.service.RoleService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -26,6 +29,9 @@ public class RoleController {
 
     @Resource
     RoleMapper roleMapper;
+
+    @Resource
+    UserRoleMapper userRoleMapper;
 
     /**
      * 查询当前用户是什么角色
@@ -95,8 +101,18 @@ public class RoleController {
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('sys:role:delete')")
     public CommonResult<String> deleteRole(@PathVariable String id) {
-        throw new BizException("无法删除，正在被使用");
-//        return CommonResult.success("删除成功");
+        // 查询当前角色是否被使用
+        LambdaUpdateWrapper<UserRole> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(UserRole::getRoleId, id);
+        UserRole userRole = userRoleMapper.selectOne(wrapper);
+        if (!Objects.isNull(userRole)) {
+            throw new BizException("无法删除，正在被使用");
+        }
+        boolean b = roleService.removeById(id);
+        if (!b) {
+            throw new BizException("删除失败");
+        }
+        return CommonResult.success("删除成功");
     }
 
 }
