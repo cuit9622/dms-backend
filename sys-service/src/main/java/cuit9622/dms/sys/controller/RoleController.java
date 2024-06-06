@@ -3,17 +3,13 @@ package cuit9622.dms.sys.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cuit9622.dms.common.entity.Role;
-import cuit9622.dms.common.entity.User;
 import cuit9622.dms.common.exception.BizException;
 import cuit9622.dms.common.model.CommonResult;
-import cuit9622.dms.sys.Vo.UserVo;
 import cuit9622.dms.sys.mapper.RoleMapper;
-import cuit9622.dms.sys.mapper.UserMapper;
 import cuit9622.dms.sys.service.RoleService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -70,6 +66,10 @@ public class RoleController {
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('sys:role:add')")
     public CommonResult<String> addRole(@RequestBody Role role) {
+        boolean save = roleService.save(role);
+        if (!save) {
+            throw new BizException("添加失败");
+        }
         return CommonResult.success("添加成功");
     }
 
