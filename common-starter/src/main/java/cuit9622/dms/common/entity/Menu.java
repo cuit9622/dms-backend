@@ -1,10 +1,12 @@
 package cuit9622.dms.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
+@TableName("sys_menu")
 public class Menu implements Serializable {
 
     private Long menuId;

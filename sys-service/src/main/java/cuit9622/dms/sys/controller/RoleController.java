@@ -6,13 +6,17 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cuit9622.dms.common.entity.Role;
 import cuit9622.dms.common.exception.BizException;
 import cuit9622.dms.common.model.CommonResult;
+import cuit9622.dms.sys.Vo.UserRoleVo;
+import cuit9622.dms.sys.Vo.UserVo;
 import cuit9622.dms.sys.entity.UserRole;
 import cuit9622.dms.sys.mapper.RoleMapper;
 import cuit9622.dms.sys.mapper.UserRoleMapper;
 import cuit9622.dms.sys.service.RoleService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -113,6 +117,17 @@ public class RoleController {
             throw new BizException("删除失败");
         }
         return CommonResult.success("删除成功");
+    }
+
+    @Transactional
+    @PutMapping("/updatePermissions/{roleId}")
+    @PreAuthorize("hasAuthority('sys:role:allot')")
+    public CommonResult<String> allotPermissions(@PathVariable Long roleId, @RequestBody UserRoleVo userRoleVo) {
+        boolean per = roleService.allotPermissions(userRoleVo.getPermissions(), roleId);
+        if (!per) {
+            throw new BizException("分配失败");
+        }
+        return CommonResult.success("分配成功");
     }
 
 }
