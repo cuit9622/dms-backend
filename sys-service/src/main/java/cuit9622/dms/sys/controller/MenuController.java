@@ -33,6 +33,4 @@ public class MenuController {
         Long userId = ((DMSUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getID();
         return CommonResult.success(menuService.getTreeMenu(userId));
     }
-
-
 }
