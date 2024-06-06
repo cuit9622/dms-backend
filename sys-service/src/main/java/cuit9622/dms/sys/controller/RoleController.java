@@ -1,6 +1,7 @@
 package cuit9622.dms.sys.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cuit9622.dms.common.entity.Role;
 import cuit9622.dms.common.exception.BizException;
@@ -79,6 +80,12 @@ public class RoleController {
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('sys:role:update')")
     public CommonResult<String> updateRole(@RequestBody Role role, @PathVariable String id) {
+        LambdaUpdateWrapper<Role> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(id != null, Role::getRoleId, id);
+        boolean update = roleService.update(role, wrapper);
+        if (!update) {
+            throw new BizException("修改失败");
+        }
         return CommonResult.success("修改成功");
     }
 
