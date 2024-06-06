@@ -39,6 +39,44 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>
                 map.put(menu.getMenuId(), menuTree);
             }
         }
+        return getMenuTrees(map, list);
+    }
+
+    @Override
+    public List<MenuTree> allTreeMenu() {
+        List<Menu> menus = menuMapper.getMenus();
+        Map<Long, MenuTree> map = new HashMap<>();
+        List<MenuTree> list = new ArrayList<>();
+        // 将数据全部放在map集合中
+        for (Menu menu : menus) {
+            MenuTree menuTree = new MenuTree();
+            menuTree.setMenu(menu);
+            if (menu.getParentId() == 0) {
+                list.add(menuTree);
+            }
+            map.put(menu.getMenuId(), menuTree);
+        }
+        return getMenuTrees(map, list);
+    }
+
+    @Override
+    public List<MenuTree> getTreeMenuByRoleId(Long roleId) {
+        List<Menu> menus = menuMapper.getMenusByRoleId(roleId);
+        Map<Long, MenuTree> map = new HashMap<>();
+        List<MenuTree> list = new ArrayList<>();
+        // 将数据全部放在map集合中
+        for (Menu menu : menus) {
+            MenuTree menuTree = new MenuTree();
+            menuTree.setMenu(menu);
+            if (menu.getParentId() == 0) {
+                list.add(menuTree);
+            }
+            map.put(menu.getMenuId(), menuTree);
+        }
+        return getMenuTrees(map, list);
+    }
+
+    private List<MenuTree> getMenuTrees(Map<Long, MenuTree> map, List<MenuTree> list) {
         for (Map.Entry<Long, MenuTree> entry : map.entrySet()) {
             MenuTree value = entry.getValue();
             List<MenuTree> children;

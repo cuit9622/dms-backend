@@ -8,4 +8,9 @@ import java.util.List;
 
 public interface MenuService extends IService<Menu> {
     List<MenuTree> getTreeMenu(Long userId);
+
+    List<MenuTree> allTreeMenu();
+
+    List<MenuTree> getTreeMenuByRoleId(Long roleId);
+
 }
