@@ -11,7 +11,7 @@ public class Role {
      * 角色id
      */
     @TableId
-    private Integer roleId;
+    private Long roleId;
     /**
      * 角色名称
      */
