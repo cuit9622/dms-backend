@@ -29,6 +29,7 @@
         <module>sys-service</module>
         <module>college</module>
         <module>student</module>
+        <module>notice</module>
     </modules>
     <dependencies>
         <dependency>
