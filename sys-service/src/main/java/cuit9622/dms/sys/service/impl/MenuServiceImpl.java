@@ -22,7 +22,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>
 
     @Override
     public List<MenuTree> getTreeMenu(Long userId) {
-        List<Menu> menus = menuMapper.getMenuByUserId(userId);
+        List<Menu> menus = null;
+        if (userId != null) {
+            menus = menuMapper.getMenuByUserId(userId);
+        } else {
+            menus = menuMapper.getMenus();
+        }
         Map<Long, MenuTree> map = new HashMap<>();
         List<MenuTree> list = new ArrayList<>();
         // 将数据全部放在map集合中

@@ -1,9 +1,12 @@
 package cuit9622.dms.sys.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import cuit9622.dms.common.entity.Menu;
 import cuit9622.dms.common.entity.MenuTree;
 import cuit9622.dms.common.model.CommonResult;
 import cuit9622.dms.common.model.DMSUserDetail;
 import cuit9622.dms.sys.service.MenuService;
+import cuit9622.dms.sys.tools.MyEnum;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,7 +34,20 @@ public class MenuController {
     }
 
     /**
+     * 得到所有的非按钮id
+     *
+     * @return
+     */
+    @GetMapping("/getContent")
+    @PreAuthorize("hasAuthority('sys:menu:list')")
+    public CommonResult<List<MenuTree>> getContent() {
+        List<MenuTree> treeMenu = menuService.getTreeMenu(null);
+        return CommonResult.success(treeMenu);
+    }
+
+    /**
      * 获取改角色的菜单的id用于回显菜单数据
+     *
      * @param id
      * @return
      */
