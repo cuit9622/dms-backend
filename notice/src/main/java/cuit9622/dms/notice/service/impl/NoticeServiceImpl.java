@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> implements NoticeService {
+
 }
