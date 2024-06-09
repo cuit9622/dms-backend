@@ -18,7 +18,7 @@ public class StudentController {
     @Resource
     private StudentService studentService;
 
-    @GetMapping("/students")
+    @GetMapping("/list")
     public CommonResult<Page<Student>> getStudents(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int pageSize, @RequestParam(required = false) String name) {
         LambdaQueryWrapper<Student> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(name != null, Student::getName,name);

@@ -27,7 +27,9 @@
         <module>common-starter</module>
         <module>auth</module>
         <module>sys-service</module>
+        <module>college</module>
         <module>student</module>
+        <module>notice</module>
     </modules>
     <dependencies>
         <dependency>
