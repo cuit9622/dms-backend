@@ -1,5 +1,6 @@
 package cuit9622.dms.college.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import cuit9622.dms.college.Vo.SchoolMajorVo;
@@ -8,6 +9,8 @@ import cuit9622.dms.college.service.SchoolMajorService;
 import cuit9622.dms.common.model.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/major")
@@ -83,6 +86,19 @@ public class SchoolMajorController {
     public CommonResult<SchoolMajor> getOne(@PathVariable("majorId") Long majorId){
         SchoolMajor major = schoolMajorService.getById(majorId);
         return CommonResult.success(major);
+    }
+
+    /**
+     * 获取指定学院下的所有专业信息
+     * @param collegeId
+     * @return
+     */
+    @GetMapping("/getAll/{collegeId}")
+    public CommonResult<List<SchoolMajor>> getAll(@PathVariable("collegeId") Long collegeId) {
+        LambdaQueryWrapper<SchoolMajor> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SchoolMajor::getCollegeId,collegeId);
+        List<SchoolMajor> majors = schoolMajorService.list(wrapper);
+        return CommonResult.success(majors);
     }
 
 }
