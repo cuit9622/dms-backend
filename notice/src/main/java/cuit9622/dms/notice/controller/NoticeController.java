@@ -46,4 +46,9 @@ public class NoticeController {
         noticeService.save(notice);
         return CommonResult.success("新增公告成功");
     }
+
+    @GetMapping("/{noticeId}")
+    public CommonResult<Notice> getNoticeById(@PathVariable Long noticeId) {
+        return CommonResult.success(noticeService.getById(noticeId));
+    }
 }

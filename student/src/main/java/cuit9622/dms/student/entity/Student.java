@@ -23,7 +23,7 @@ public class Student implements Serializable {
      */
 
 
-    private String sex;
+    private Integer sex;
     /**
      * 班级
      */
