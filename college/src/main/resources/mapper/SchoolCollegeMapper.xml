@@ -24,4 +24,9 @@
         from dms.major
         where college_id = #{id};
     </select>
+    <select id="getAll" resultType="cuit9622.dms.college.entity.SchoolCollege">
+        select college_id ,
+               college_name
+        from dms.college
+    </select>
 </mapper>

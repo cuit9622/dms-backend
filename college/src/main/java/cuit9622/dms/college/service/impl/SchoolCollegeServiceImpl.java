@@ -8,6 +8,8 @@ import cuit9622.dms.college.service.SchoolCollegeService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SchoolCollegeServiceImpl extends ServiceImpl<SchoolCollegeMapper, SchoolCollege> implements SchoolCollegeService {
 
@@ -31,5 +33,11 @@ public class SchoolCollegeServiceImpl extends ServiceImpl<SchoolCollegeMapper, S
     public int getMajorByCollegeId(Long collegeId) {
         int count = schoolCollegeMapper.selectMajor(collegeId);
         return count;
+    }
+
+    @Override
+    public List<SchoolCollege> getAll() {
+        List<SchoolCollege> list = schoolCollegeMapper.getAll();
+        return list;
     }
 }

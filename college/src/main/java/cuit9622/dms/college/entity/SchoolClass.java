@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @TableName("class")
 public class SchoolClass {
+
     @TableId(type = IdType.AUTO)
     private Long classId;
 

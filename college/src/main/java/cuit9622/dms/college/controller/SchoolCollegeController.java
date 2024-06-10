@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/college")
@@ -97,7 +99,11 @@ public class SchoolCollegeController {
         Page<SchoolCollege> info = schoolCollegeService.selectCollege(page, pageSize, (collegeName == null ? "" : collegeName));
         return CommonResult.success(info);
     }
-
+    @GetMapping("/getAll")
+    public CommonResult<List<SchoolCollege>> getAll(){
+        List<SchoolCollege> list = schoolCollegeService.list();
+        return CommonResult.success(list);
+    }
     /**
      * 用于在编辑学院信息时回显表单信息
      * @param collegeId

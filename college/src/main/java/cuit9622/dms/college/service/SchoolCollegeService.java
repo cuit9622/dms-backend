@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import cuit9622.dms.college.entity.SchoolCollege;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import java.util.List;
+
 public interface SchoolCollegeService extends IService<SchoolCollege> {
 
     /**
@@ -28,4 +30,6 @@ public interface SchoolCollegeService extends IService<SchoolCollege> {
      * @return
      */
     int getMajorByCollegeId(Long collegeId);
+
+    List<SchoolCollege> getAll();
 }

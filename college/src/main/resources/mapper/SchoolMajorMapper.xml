@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cuit9622.dms.college.mapper.SchoolMajorMapper">
+
+    <select id="page" resultType="cuit9622.dms.college.Vo.SchoolMajorVo">
+        select dms.college.college_id ,
+               college_name ,
+               dms.major.order_num ,
+               major_id,
+               major_name
+        from dms.college, dms.major
+        where major.college_id = college.college_id and major.major_name like concat('%',#{name},'%')
+    </select>
+
+    <select id="selectByName" resultType="java.lang.Integer">
+        select count(*)
+        from dms.major
+        where dms.major.major_id != #{id} and major_name = #{name} ;
+    </select>
+
+</mapper>
