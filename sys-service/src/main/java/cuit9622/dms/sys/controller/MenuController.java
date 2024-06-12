@@ -85,8 +85,15 @@ public class MenuController {
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('sys:menu:delete')")
-    public CommonResult<String> updateMenus(@PathVariable String id) {
+    public CommonResult<String> updateMenus(@PathVariable Long id) {
         System.out.println(id);
+        LambdaQueryWrapper<Menu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Menu::getParentId, id);
+        List<Menu> list = menuService.list(wrapper);
+        if (!list.isEmpty()){
+            return CommonResult.success("该菜单拥有子菜单,无法删除");
+        }
+        menuService.removeById(id);
         return CommonResult.success("删除成功");
     }
 }
