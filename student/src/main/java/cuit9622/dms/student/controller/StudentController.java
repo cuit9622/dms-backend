@@ -39,13 +39,20 @@ public class StudentController {
         return studentMapper.selectOne(wrapper);
     }
 
+    @GetMapping("/getOne/{stuId}")
+    public CommonResult<Student> getOne(@PathVariable Long stuId) {
+        LambdaQueryWrapper<Student> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Student::getStuId, stuId);
+        return CommonResult.success(studentService.getOne(wrapper));
+    }
+
     /**
      * 新增学生信息
      */
     @PostMapping("/add")
     public CommonResult<String> add(@RequestBody Student student) {
-        boolean flag = studentService.save(student);
-        if(flag) {
+        boolean save = studentService.save(student);
+        if(save) {
             return CommonResult.success("添加成功");
         }
         else return CommonResult.error(500,"添加失败");
@@ -60,5 +67,14 @@ public class StudentController {
         wrapper.eq(stuNum != null, Student::getStuNum,stuNum);
         Student result = studentService.getOne(wrapper);
         return CommonResult.success(Objects.isNull(result));
+    }
+
+    @PutMapping("/edit")
+    public CommonResult<String> update(@RequestBody Student student) {
+        boolean save = studentService.updateById(student);
+        if(save) {
+            return CommonResult.success("修改成功");
+        }
+        return CommonResult.error(500,"修改失败");
     }
 }
