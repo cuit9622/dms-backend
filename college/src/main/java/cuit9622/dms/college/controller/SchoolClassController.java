@@ -1,14 +1,17 @@
 package cuit9622.dms.college.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import cuit9622.dms.college.entity.SchoolClass;
 import cuit9622.dms.college.service.SchoolClassService;
 import cuit9622.dms.common.model.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping
+@RequestMapping("/class")
 public class SchoolClassController {
     @Autowired
     private SchoolClassService schoolClassService;
@@ -50,5 +53,17 @@ public class SchoolClassController {
     public CommonResult getList(){
 
         return CommonResult.error(500, "分页失败!");
+    }
+
+    /**
+     * 获取指定专业下的所有班级
+     * @param majorId 专业名称
+     * @return
+     */
+    @GetMapping("/getAll/{majorId}")
+    public CommonResult<List<SchoolClass>> getAll(@PathVariable("majorId") Long majorId ){
+        LambdaQueryWrapper<SchoolClass> wrapper = new LambdaQueryWrapper<>();
+        wrapper = wrapper.eq(SchoolClass::getMajorId,majorId);
+        return CommonResult.success(schoolClassService.list(wrapper));
     }
 }
