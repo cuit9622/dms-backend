@@ -56,4 +56,29 @@ public class MenuController {
     public CommonResult<List<Long>> getMenuTreeById(@PathVariable Long id) {
         return CommonResult.success(menuService.getTreeMenuByRoleId(id));
     }
+
+    @PostMapping("/add")
+    @PreAuthorize("hasAuthority('sys:menu:add')")
+    public CommonResult<String> addMenus(@RequestBody Menu menu) {
+        System.out.println(menu);
+        boolean save = menuService.save(menu);
+        if (!save) {
+            return CommonResult.success("添加失败");
+        }
+        return CommonResult.success("添加成功");
+    }
+
+    @PutMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('sys:menu:update')")
+    public CommonResult<String> updateMenus(@RequestBody Menu menu, @PathVariable Long id) {
+        System.out.println(menu);
+        return CommonResult.success("修改成功");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('sys:menu:delete')")
+    public CommonResult<String> updateMenus(@PathVariable String id) {
+        System.out.println(id);
+        return CommonResult.success("删除成功");
+    }
 }
