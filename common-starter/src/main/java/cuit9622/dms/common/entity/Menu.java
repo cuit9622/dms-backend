@@ -1,5 +1,6 @@
 package cuit9622.dms.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.io.Serializable;
 @TableName("sys_menu")
 public class Menu implements Serializable {
 
+    @TableId
     private Long menuId;
 
     private Long parentId;
