@@ -24,7 +24,11 @@ public class StudentController {
     private StudentService studentService;
 
     /**
-     * 获取学生分页信息
+     *
+     * @param page 当前页
+     * @param pageSize 页面大小
+     * @param name 搜索姓名
+     * @return 学生分页信息
      */
     @GetMapping("/list")
     public CommonResult<Page<StudentVo>> getStudents(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int pageSize, @RequestParam(required = false) String name) {
@@ -40,6 +44,11 @@ public class StudentController {
         return studentMapper.selectOne(wrapper);
     }
 
+    /**
+     * 通过stuId获取学生信息
+     * @param stuId 学生id
+     * @return 学生信息
+     */
     @GetMapping("/getOne/{stuId}")
     public CommonResult<Student> getOne(@PathVariable Long stuId) {
         LambdaQueryWrapper<Student> wrapper = new LambdaQueryWrapper<>();
@@ -49,6 +58,8 @@ public class StudentController {
 
     /**
      * 新增学生信息
+     * @param student 学生实体
+     * @return 添加信息
      */
     @PostMapping("/add")
     public CommonResult<String> add(@RequestBody Student student) {
@@ -61,6 +72,8 @@ public class StudentController {
 
     /**
      * 检查学号是否重复
+     * @param stuNum 学号
+     * @return 检查结果
      */
     @GetMapping("/check/{stuNum}")
     public CommonResult<Boolean> checkUsername(@PathVariable String stuNum) {
@@ -71,7 +84,9 @@ public class StudentController {
     }
 
     /**
-     * 修改学生
+     * 修改学生信息
+     * @param student 学生实体
+     * @return 修改信息
      */
     @PutMapping("/edit")
     public CommonResult<String> update(@RequestBody Student student) {
@@ -84,6 +99,8 @@ public class StudentController {
 
     /**
      * 通过stuId删除学生
+     * @param stuId 学生id
+     * @return 删除结果
      */
     @DeleteMapping("/delete/{stuId}")
     public CommonResult<String> delete(@PathVariable Long stuId) {
@@ -96,10 +113,12 @@ public class StudentController {
 
     /**
      * 批量删除学生信息
+     * @param ids 学生id列表
+     * @return 批量删除信息
      */
     @DeleteMapping("/delete")
     public CommonResult<String> deleteByids(@RequestBody List<Long> ids) {
-        Boolean delete = studentService.removeBatchByIds(ids);
+        boolean delete = studentService.removeBatchByIds(ids);
         if(delete) {
             return CommonResult.success("批量删除成功");
         }

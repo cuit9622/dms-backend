@@ -14,7 +14,7 @@
             from notice
         <where>
             <if test="title != null and title !='' ">
-                title like concat('%',#{title},'%')
+                notice.title like concat('%',#{title},'%')
             </if>
         </where>
     </select>

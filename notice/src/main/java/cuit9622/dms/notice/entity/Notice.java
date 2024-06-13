@@ -5,18 +5,19 @@ import java.io.Serializable;
 
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 
 @Data
+@TableName("notice")
 public class Notice implements Serializable {
 
     /**
     * 主键
     */
+    @TableId(type = IdType.AUTO)
     private Long noticeId;
     /**
     * 公告标题
