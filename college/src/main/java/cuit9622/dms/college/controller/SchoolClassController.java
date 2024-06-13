@@ -2,6 +2,8 @@ package cuit9622.dms.college.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cuit9622.dms.college.Vo.SchoolClassVo;
 import cuit9622.dms.college.entity.SchoolClass;
 import cuit9622.dms.college.service.SchoolClassService;
 import cuit9622.dms.common.model.CommonResult;
@@ -10,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import java.util.Calendar;
+import java.util.Date;
+
 @RestController
 @RequestMapping("/class")
 public class SchoolClassController {
@@ -17,8 +22,16 @@ public class SchoolClassController {
     private SchoolClassService schoolClassService;
 
     //新增
-    @PostMapping
-    public CommonResult add(@RequestBody SchoolClass schoolClass){
+    @PostMapping("add")
+    public CommonResult add(@RequestBody SchoolClassVo schoolClass){
+
+        //设置创建时间
+        Date now = new Date(); // 获取当前日期
+        Calendar calendar = Calendar.getInstance(); // 创建一个Calendar实例
+        calendar.setTime(now); // 将当前日期设置为Calendar的时间
+        int yearInt = calendar.get(Calendar.YEAR); // 获取年份（int类型）
+        String yearString = Integer.toString(yearInt); // 将年份转换为字符串
+        schoolClass.setClassYear(yearString);
 
         boolean save = schoolClassService.save(schoolClass);
         if(save){
@@ -28,7 +41,7 @@ public class SchoolClassController {
     }
 
     //编辑
-    @PutMapping
+    @PutMapping("/edit")
     public CommonResult edit(@RequestBody SchoolClass schoolClass){
 
         boolean save = schoolClassService.updateById(schoolClass);
@@ -43,16 +56,22 @@ public class SchoolClassController {
     public CommonResult delete(@PathVariable("classId") Long classId){
         boolean b = schoolClassService.removeById(classId);
         if(b){
-            return CommonResult.success("删除学院成功!");
+            return CommonResult.success("删除班级成功!");
         }
-        return CommonResult.error(500, "编辑学院失败!");
+        return CommonResult.error(500, "编辑班级失败!");
     }
 
     //分页查询
     @GetMapping("/list")
-    public CommonResult getList(){
+    public CommonResult<Page<SchoolClassVo>> getList(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize, @RequestParam(value = "className", required = false) String className){
+        Page<SchoolClassVo> info = schoolClassService.selectClass(page, pageSize, (className == null ? "" : className));
+        return CommonResult.success(info);
+    }
 
-        return CommonResult.error(500, "分页失败!");
+    @GetMapping("/getOne/{classId}")
+    public CommonResult<SchoolClass> getOne(@PathVariable("classId") Long classId){
+        SchoolClass info = schoolClassService.getById(classId);
+        return CommonResult.success(info);
     }
 
     /**

@@ -26,4 +26,10 @@ public class SchoolMajorServiceImpl extends ServiceImpl<SchoolMajorMapper, Schoo
         int count = schoolMajorMapper.selectByName(majorName, majorId);
         return count;
     }
+
+    @Override
+    public int getClassByMajorId(Long majorId) {
+        int count = schoolMajorMapper.selectClass(majorId);
+        return count;
+    }
 }

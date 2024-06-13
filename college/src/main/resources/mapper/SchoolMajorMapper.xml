@@ -18,4 +18,11 @@
         where dms.major.major_id != #{id} and major_name = #{name} ;
     </select>
 
+    <select id="selectClass" resultType="java.lang.Integer">
+        select count(*)
+        from dms.class
+        where class.major_id = #{id}
+          and YEAR(DATE_SUB(CURDATE(),INTERVAL class.class_year YEAR)) &lt; 4;
+    </select>
+
 </mapper>
