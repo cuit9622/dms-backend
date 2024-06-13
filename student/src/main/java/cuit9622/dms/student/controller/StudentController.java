@@ -1,5 +1,7 @@
 package cuit9622.dms.student.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cuit9622.dms.common.model.CommonResult;
@@ -8,9 +10,12 @@ import cuit9622.dms.student.mapper.StudentMapper;
 import cuit9622.dms.student.service.StudentService;
 import cuit9622.dms.student.vo.StudentVo;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Objects;
 
@@ -130,5 +135,28 @@ public class StudentController {
         LambdaQueryWrapper<Student> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Student::getStuNum,stuNum);
         return studentMapper.selectOne(wrapper);
+    }
+
+    /**
+     * 导出学生信息为excel供用户下载
+     *
+     * @param response 响应
+     * @throws IOException
+     */
+    @GetMapping("/export")
+    public void exportExcel(HttpServletResponse response) throws IOException {
+        List<StudentVo> list = studentMapper.getStudentVo();
+        // 设置相应数据格式
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setCharacterEncoding("utf-8");
+        String fileName = URLEncoder.encode("学生信息表", "UTF-8").replaceAll("\\+", "%20");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+
+        // 导出excel
+        EasyExcel.write(response.getOutputStream())
+                .head(StudentVo.class)
+                .excelType(ExcelTypeEnum.XLSX)
+                .sheet("学生信息表")
+                .doWrite(list);
     }
 }

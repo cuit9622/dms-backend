@@ -7,8 +7,11 @@ import cuit9622.dms.student.vo.StudentVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface StudentMapper extends BaseMapper<Student> {
     Page<StudentVo> page(@Param("page") Page<StudentVo> page, @Param("name")String name);
 
+    List<StudentVo> getStudentVo();
 }

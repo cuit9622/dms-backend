@@ -22,4 +22,19 @@
             </if>
         </where>
 </select>
+    <select id="getStudentVo" resultType="cuit9622.dms.student.vo.StudentVo">
+        select stu_id,
+               name,
+               sex,
+               class_number,
+               stu_num,
+               college,
+               major,
+               tel,
+               (select college_name from college where college.college_id = college) college_name,
+               (select major_name from major where major.major_id = major) major_name,
+               (select class_name from class where class.class_id = class_number) class_name,
+               (select if(sex = 0,'男','女')) sexName
+        from student
+    </select>
 </mapper>
