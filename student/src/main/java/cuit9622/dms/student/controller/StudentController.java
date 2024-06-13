@@ -11,6 +11,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -91,5 +92,17 @@ public class StudentController {
             return CommonResult.success("删除成功");
         }
         return  CommonResult.error(500,"删除失败");
+    }
+
+    /**
+     * 批量删除学生信息
+     */
+    @DeleteMapping("/delete")
+    public CommonResult<String> deleteByids(@RequestBody List<Long> ids) {
+        Boolean delete = studentService.removeBatchByIds(ids);
+        if(delete) {
+            return CommonResult.success("批量删除成功");
+        }
+        return CommonResult.error(500,"批量删除失败");
     }
 }
