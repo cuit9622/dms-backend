@@ -61,6 +61,9 @@ public class MenuController {
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public CommonResult<String> addMenus(@RequestBody Menu menu) {
         System.out.println(menu);
+        if (menu.getParentId() == null){
+            menu.setParentId(0L);
+        }
         boolean save = menuService.save(menu);
         if (!save) {
             return CommonResult.success("添加失败");
