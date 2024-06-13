@@ -69,6 +69,9 @@ public class StudentController {
         return CommonResult.success(Objects.isNull(result));
     }
 
+    /**
+     * 修改学生
+     */
     @PutMapping("/edit")
     public CommonResult<String> update(@RequestBody Student student) {
         boolean save = studentService.updateById(student);
@@ -76,5 +79,17 @@ public class StudentController {
             return CommonResult.success("修改成功");
         }
         return CommonResult.error(500,"修改失败");
+    }
+
+    /**
+     * 通过stuId删除学生
+     */
+    @DeleteMapping("/delete/{stuId}")
+    public CommonResult<String> delete(@PathVariable Long stuId) {
+        boolean delete = studentService.removeById(stuId);
+        if(delete) {
+            return CommonResult.success("删除成功");
+        }
+        return  CommonResult.error(500,"删除失败");
     }
 }
