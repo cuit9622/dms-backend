@@ -7,4 +7,5 @@ import lombok.Data;
 public class StudentVo extends Student {
     private String collegeName;
     private String majorName;
+    private String className;
 }

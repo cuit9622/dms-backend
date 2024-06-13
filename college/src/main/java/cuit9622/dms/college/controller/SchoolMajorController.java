@@ -57,6 +57,13 @@ public class SchoolMajorController {
     //删除
     @DeleteMapping("/{majorId}")
     public CommonResult delete(@PathVariable("majorId") Long majorId){
+
+        int count = schoolMajorService.getClassByMajorId(majorId);
+        System.out.println(count);
+        //该专业下有在读班级，不能删除
+        if(count > 0){
+            return CommonResult.error(500, "该专业下有在读班级，不能删除！");
+        }
         boolean b = schoolMajorService.removeById(majorId);
         if(b){
             return CommonResult.success("删除成功!");

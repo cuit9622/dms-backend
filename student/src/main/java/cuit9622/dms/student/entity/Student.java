@@ -1,16 +1,20 @@
 package cuit9622.dms.student.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
 @Data
+@TableName("student")
 public class Student implements Serializable {
 
     /**
      * 学生id
      */
-
+    @TableId(type = IdType.AUTO)
     private Long stuId;
     /**
      * 学生姓名

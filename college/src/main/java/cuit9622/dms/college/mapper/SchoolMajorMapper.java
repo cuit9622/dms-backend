@@ -13,4 +13,6 @@ public interface SchoolMajorMapper extends BaseMapper<SchoolMajor> {
     Page<SchoolMajorVo> page(@Param("page")Page<SchoolMajorVo> page, @Param("name")String majorName);
 
     int selectByName( @Param("name") String majorName, @Param("id") Long majorId);
+
+    int selectClass(@Param("id") Long majorId);
 }
