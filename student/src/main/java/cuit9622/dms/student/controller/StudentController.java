@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -158,5 +159,27 @@ public class StudentController {
                 .excelType(ExcelTypeEnum.XLSX)
                 .sheet("学生信息表")
                 .doWrite(list);
+    }
+
+    /**
+     * 导出学生模板
+     */
+    @GetMapping("/generate")
+    public void generateMould(HttpServletResponse response) throws IOException {
+        {
+            List<StudentVo> list = new ArrayList<>();
+            // 设置相应数据格式
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setCharacterEncoding("utf-8");
+            String fileName = URLEncoder.encode("学生信息表", "UTF-8").replaceAll("\\+", "%20");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+
+            // 导出excel
+            EasyExcel.write(response.getOutputStream())
+                    .head(StudentVo.class)
+                    .excelType(ExcelTypeEnum.XLSX)
+                    .sheet("学生信息表")
+                    .doWrite(list);
+        }
     }
 }
