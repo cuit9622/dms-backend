@@ -30,6 +30,7 @@
         <module>college</module>
         <module>student</module>
         <module>notice</module>
+        <module>dormRepair</module>
     </modules>
     <dependencies>
         <dependency>
