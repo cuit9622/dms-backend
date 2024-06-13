@@ -124,4 +124,11 @@ public class StudentController {
         }
         return CommonResult.error(500,"批量删除失败");
     }
+
+    @GetMapping("/stuNum/{stuNum}")
+    public Student getBystuNum(@PathVariable String stuNum) {
+        LambdaQueryWrapper<Student> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Student::getStuNum,stuNum);
+        return studentMapper.selectOne(wrapper);
+    }
 }
