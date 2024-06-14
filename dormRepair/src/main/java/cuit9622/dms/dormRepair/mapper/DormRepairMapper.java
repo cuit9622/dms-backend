@@ -13,4 +13,8 @@ public interface DormRepairMapper extends BaseMapper<DormRepair> {
 
 
     Page<DormRepair> page(@Param("page")Page<DormRepair> pageInfo,@Param("name") String dormName);
+
+    Page<DormRepair> pageByPersonal(@Param("page")Page<DormRepair> pageInfo,@Param("userId") Long userId);
+
+    Long getCount();
 }

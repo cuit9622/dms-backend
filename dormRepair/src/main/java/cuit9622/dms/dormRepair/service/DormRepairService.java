@@ -20,4 +20,19 @@ public interface DormRepairService extends IService<DormRepair> {
      * @return
      */
     Page<DormRepair> selectRepair(Integer page, Integer pageSize, String s);
+
+    /**
+     * 学生的报修页面的分页查询
+     * @param page
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    Page<DormRepair> selectPersonalRepair(Integer page, Integer pageSize, Long userId);
+
+    /**
+     * 获取未报修的数量
+     * @return
+     */
+    Long getCount();
 }

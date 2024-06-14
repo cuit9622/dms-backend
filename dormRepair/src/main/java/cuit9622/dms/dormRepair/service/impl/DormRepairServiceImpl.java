@@ -26,4 +26,17 @@ public class DormRepairServiceImpl extends ServiceImpl<DormRepairMapper, DormRep
         pageInfo = dormRepairMapper.page(pageInfo, dormName);
         return pageInfo;
     }
+
+    @Override
+    public Page<DormRepair> selectPersonalRepair(Integer page, Integer pageSize, Long userId) {
+        Page<DormRepair> pageInfo = new Page<>(page, pageSize);
+        pageInfo = dormRepairMapper.pageByPersonal(pageInfo, userId);
+        return pageInfo;
+    }
+
+    @Override
+    public Long getCount() {
+        Long count = dormRepairMapper.getCount();
+        return count;
+    }
 }

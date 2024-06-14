@@ -73,9 +73,19 @@ public class DormRepairController {
             Page<DormRepair> info = dormRepairService.selectRepair(page, pageSize, (dormName == null ? "" : dormName));
             return CommonResult.success(info);
         } else if (roleId == 2) {
-            Page<DormRepair> info = dormRepairService.selectRepair(page, pageSize, (dormName == null ? "" : dormName));
+            Page<DormRepair> info = dormRepairService.selectPersonalRepair(page, pageSize, userId);
             return CommonResult.success(info);
         }
         return CommonResult.error(500,"查询失败");
+    }
+
+    /**
+     * 获取未报修的数量 用于前台展示
+     * @return
+     */
+    @GetMapping("/getNum")
+    public CommonResult<Long> getCount(){
+        Long count = dormRepairService.getCount();
+        return CommonResult.success(count);
     }
 }

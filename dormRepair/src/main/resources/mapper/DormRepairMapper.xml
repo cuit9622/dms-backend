@@ -7,10 +7,23 @@
         from dms.sys_user_role
         where user_id = #{userId}
     </select>
+
     <select id="page" resultType="cuit9622.dms.dormRepair.entity.DormRepair">
         select repair_id, username, phone, dorm_name, repair_text ,repair_time , status, user_id
         from dms.dorm_repair
         where dorm_name like concat('%',#{name},'%')
         order by status asc
+    </select>
+
+    <select id="pageByPersonal" resultType="cuit9622.dms.dormRepair.entity.DormRepair">
+        select repair_id, username, phone, dorm_name, repair_text ,repair_time , status, user_id
+        from dms.dorm_repair
+        where user_id = #{userId}
+        order by status asc
+    </select>
+    <select id="getCount" resultType="java.lang.Long">
+        select count(*)
+        from dms.dorm_repair
+        where status = '0'
     </select>
 </mapper>
