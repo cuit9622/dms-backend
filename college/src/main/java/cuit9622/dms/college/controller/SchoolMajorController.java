@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import cuit9622.dms.college.Vo.SchoolMajorVo;
-import cuit9622.dms.college.entity.SchoolMajor;
+import cuit9622.dms.common.entity.SchoolMajor;
 import cuit9622.dms.college.service.SchoolMajorService;
 import cuit9622.dms.common.model.CommonResult;
-import org.apache.http.cookie.SM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

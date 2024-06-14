@@ -2,7 +2,7 @@ package cuit9622.dms.college.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import cuit9622.dms.college.entity.SchoolCollege;
+import cuit9622.dms.common.entity.SchoolCollege;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

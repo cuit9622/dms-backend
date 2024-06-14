@@ -2,7 +2,7 @@ package cuit9622.dms.college.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import cuit9622.dms.college.entity.SchoolCollege;
+import cuit9622.dms.common.entity.SchoolCollege;
 import cuit9622.dms.college.mapper.SchoolCollegeMapper;
 import cuit9622.dms.college.service.SchoolCollegeService;
 import jakarta.annotation.Resource;

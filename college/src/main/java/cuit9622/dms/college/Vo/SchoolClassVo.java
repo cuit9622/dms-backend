@@ -1,6 +1,6 @@
 package cuit9622.dms.college.Vo;
 
-import cuit9622.dms.college.entity.SchoolClass;
+import cuit9622.dms.common.entity.SchoolClass;
 import lombok.Data;
 
 @Data

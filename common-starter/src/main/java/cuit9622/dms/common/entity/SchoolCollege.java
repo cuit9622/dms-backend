@@ -1,22 +1,22 @@
-package cuit9622.dms.college.entity;
+package cuit9622.dms.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-@TableName("class")
-public class SchoolClass {
+@TableName("college")
+public class SchoolCollege {
 
     @TableId(type = IdType.AUTO)
-    private Long classId;
+    private Long collegeId;
 
-    private Long majorId;
-
-    private String className;
-
-    private String classYear;
+    private String collegeName;
 
     private Integer orderNum;
+
+    private Date createTime;
 }

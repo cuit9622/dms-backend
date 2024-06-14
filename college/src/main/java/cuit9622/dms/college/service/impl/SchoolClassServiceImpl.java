@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import cuit9622.dms.college.Vo.SchoolClassVo;
-import cuit9622.dms.college.Vo.SchoolMajorVo;
-import cuit9622.dms.college.entity.SchoolClass;
+import cuit9622.dms.common.entity.SchoolClass;
 import cuit9622.dms.college.mapper.SchoolClassMapper;
 import cuit9622.dms.college.service.SchoolClassService;
 import jakarta.annotation.Resource;

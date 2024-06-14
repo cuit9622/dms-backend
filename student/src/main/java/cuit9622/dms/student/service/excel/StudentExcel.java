@@ -1,8 +1,8 @@
 package cuit9622.dms.student.service.excel;
 
-import cuit9622.dms.college.entity.SchoolClass;
-import cuit9622.dms.college.entity.SchoolCollege;
-import cuit9622.dms.college.entity.SchoolMajor;
+import cuit9622.dms.common.entity.SchoolClass;
+import cuit9622.dms.common.entity.SchoolCollege;
+import cuit9622.dms.common.entity.SchoolMajor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

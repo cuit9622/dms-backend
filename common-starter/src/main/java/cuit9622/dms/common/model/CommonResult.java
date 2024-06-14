@@ -3,6 +3,7 @@ package cuit9622.dms.common.model;
 import cuit9622.dms.common.enums.ErrorCodes;
 import lombok.Data;
 
+
 @Data
 public class CommonResult<T> {
     private Integer code;
@@ -27,4 +28,6 @@ public class CommonResult<T> {
     public static <T> CommonResult<T> error(ErrorCode errorCode) {
         return error(errorCode.getCode(), errorCode.getMsg());
     }
+
+
 }

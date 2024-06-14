@@ -1,7 +1,7 @@
 package cuit9622.dms.college.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import cuit9622.dms.college.entity.SchoolCollege;
+import cuit9622.dms.common.entity.SchoolCollege;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;

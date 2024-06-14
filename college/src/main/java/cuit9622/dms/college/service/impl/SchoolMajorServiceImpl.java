@@ -3,7 +3,7 @@ package cuit9622.dms.college.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cuit9622.dms.college.Vo.SchoolMajorVo;
-import cuit9622.dms.college.entity.SchoolMajor;
+import cuit9622.dms.common.entity.SchoolMajor;
 import cuit9622.dms.college.mapper.SchoolMajorMapper;
 import cuit9622.dms.college.service.SchoolMajorService;
 import jakarta.annotation.Resource;

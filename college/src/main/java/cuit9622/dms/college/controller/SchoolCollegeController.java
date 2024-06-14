@@ -1,7 +1,7 @@
 package cuit9622.dms.college.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import cuit9622.dms.college.entity.SchoolCollege;
+import cuit9622.dms.common.entity.SchoolCollege;
 import cuit9622.dms.college.service.SchoolCollegeService;
 import cuit9622.dms.common.model.CommonResult;
 import jakarta.annotation.Resource;

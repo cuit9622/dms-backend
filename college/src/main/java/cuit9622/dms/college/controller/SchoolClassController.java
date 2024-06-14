@@ -4,7 +4,7 @@ package cuit9622.dms.college.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cuit9622.dms.college.Vo.SchoolClassVo;
-import cuit9622.dms.college.entity.SchoolClass;
+import cuit9622.dms.common.entity.SchoolClass;
 import cuit9622.dms.college.service.SchoolClassService;
 import cuit9622.dms.common.model.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;

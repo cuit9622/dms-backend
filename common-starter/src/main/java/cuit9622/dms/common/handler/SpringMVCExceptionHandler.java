@@ -12,7 +12,8 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 public class SpringMVCExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     public CommonResult<?> NoResourceFoundException(NoResourceFoundException ex) {
-        log.error("[NoResourceFoundException]", ex);
+
+        log.error("[NoResourceFoundException] {}\n", ex.getResourcePath(), ex);
         return CommonResult.error(ErrorCodes.NOT_FOUND);
     }
 }

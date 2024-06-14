@@ -3,7 +3,7 @@ package cuit9622.dms.college.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import cuit9622.dms.college.Vo.SchoolClassVo;
-import cuit9622.dms.college.entity.SchoolClass;
+import cuit9622.dms.common.entity.SchoolClass;
 
 
 public interface SchoolClassService extends IService<SchoolClass> {
