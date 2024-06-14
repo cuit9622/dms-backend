@@ -85,4 +85,13 @@ public class SchoolClassController {
         wrapper = wrapper.eq(SchoolClass::getMajorId,majorId);
         return CommonResult.success(schoolClassService.list(wrapper));
     }
+
+    @GetMapping("/className")
+    public SchoolClass getByClassName(@RequestParam String className) {
+        LambdaQueryWrapper<SchoolClass> wrapper = new LambdaQueryWrapper<>();
+        wrapper = wrapper.eq(SchoolClass::getClassName,className);
+        return schoolClassService.getOne(wrapper);
+    }
+
+
 }

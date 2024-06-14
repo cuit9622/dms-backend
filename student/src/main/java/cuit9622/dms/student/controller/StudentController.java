@@ -6,13 +6,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cuit9622.dms.common.model.CommonResult;
 import cuit9622.dms.student.entity.Student;
+import cuit9622.dms.student.listener.StudentReadListener;
 import cuit9622.dms.student.mapper.StudentMapper;
 import cuit9622.dms.student.service.StudentService;
+import cuit9622.dms.student.service.excel.StudentExcel;
 import cuit9622.dms.student.vo.StudentVo;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -28,6 +31,8 @@ public class StudentController {
     private StudentMapper studentMapper;
     @Resource
     private StudentService studentService;
+    @Resource
+    private StudentExcel studentExcel;
 
     /**
      *
@@ -181,5 +186,17 @@ public class StudentController {
                     .sheet("学生信息表")
                     .doWrite(list);
         }
+    }
+
+    /**
+     * 导入excel及校验
+     */
+    @PostMapping("/import")
+    public CommonResult<List<String>> importExcel(MultipartFile file) throws IOException {
+        // 创建监听器
+        StudentReadListener listener = new StudentReadListener(studentExcel,studentService);
+        studentService.importExcel(file, listener);
+        // 如果有错误信息
+        return CommonResult.success(listener.getInfo());
     }
 }

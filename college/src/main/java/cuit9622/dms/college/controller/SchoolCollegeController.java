@@ -1,5 +1,6 @@
 package cuit9622.dms.college.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import cuit9622.dms.college.entity.SchoolCollege;
 import cuit9622.dms.college.service.SchoolCollegeService;
 import cuit9622.dms.common.model.CommonResult;
@@ -113,5 +114,12 @@ public class SchoolCollegeController {
     public CommonResult<SchoolCollege> getOne( @PathVariable("collegeId") Long collegeId){
         SchoolCollege college = schoolCollegeService.getById(collegeId);
         return CommonResult.success(college);
+    }
+
+    @GetMapping("/collegeName")
+    public SchoolCollege getByCollegeName(@RequestParam String collegeName) {
+        LambdaQueryWrapper<SchoolCollege> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SchoolCollege::getCollegeName,collegeName);
+        return schoolCollegeService.getOne(wrapper);
     }
 }
