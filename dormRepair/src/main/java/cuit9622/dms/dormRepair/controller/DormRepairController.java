@@ -19,13 +19,17 @@ public class DormRepairController {
     //新增
     @PostMapping("/add")
     public CommonResult add(@RequestBody DormRepair dormRepair){
+        //获取当前的用户id
+        Long userId = SecurityUtil.getUserID();
+        System.out.println(userId);
         //设置报修时间
+        dormRepair.setUserId(userId);
         dormRepair.setRepairTime(new Date());
         boolean save = dormRepairService.save(dormRepair);
         if(save){
-            return CommonResult.success("报修成功!");
+            return CommonResult.success("报修添加成功!");
         }
-        return CommonResult.error(500,"报修失败!");
+        return CommonResult.error(500,"报修添加失败!");
     }
 
     //编辑、报修
@@ -44,11 +48,20 @@ public class DormRepairController {
             msg1 = "编辑成功";
             msg2 = "编辑失败";
         }
+
         boolean save = dormRepairService.updateById(dormRepair);
-        if(save){
-            return CommonResult.success(msg1);
+        if(roleId == 1){
+            if(save){
+                return CommonResult.success(msg1);
+            }
+            return CommonResult.error(500, msg1);
+        }else if(roleId == 2){
+            if(save){
+                return CommonResult.success(msg2);
+            }
+            return CommonResult.error(500, msg2);
         }
-        return CommonResult.error(500, msg2);
+        return CommonResult.error(500, "未知用户信息");
     }
 
     //删除
