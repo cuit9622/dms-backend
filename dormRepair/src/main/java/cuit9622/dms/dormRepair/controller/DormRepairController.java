@@ -16,7 +16,11 @@ public class DormRepairController {
     @Autowired
     private DormRepairService dormRepairService;
 
-    //新增
+    /**
+     * 新增报修信息
+     * @param dormRepair
+     * @return
+     */
     @PostMapping("/add")
     public CommonResult add(@RequestBody DormRepair dormRepair){
         //获取当前的用户id
@@ -32,7 +36,10 @@ public class DormRepairController {
         return CommonResult.error(500,"报修添加失败!");
     }
 
-    //编辑、报修
+    /**编辑、报修
+     * @param dormRepair
+     * @return
+     */
     @PutMapping("edit")
     public CommonResult edit(@RequestBody DormRepair dormRepair){
         //获取当前的用户id
@@ -57,24 +64,34 @@ public class DormRepairController {
             return CommonResult.error(500, msg1);
         }else if(roleId == 2){
             if(save){
-                return CommonResult.success(msg2);
+                return CommonResult.success(msg1);
             }
             return CommonResult.error(500, msg2);
         }
         return CommonResult.error(500, "未知用户信息");
     }
 
-    //删除
+    /**
+     * 删除报修信息
+     * @param repairId
+     * @return
+     */
     @DeleteMapping("/{repairId}")
     public CommonResult delete(@PathVariable("repairId") Long repairId){
         boolean b = dormRepairService.removeById(repairId);
         if(b){
             return CommonResult.success("删除成功!");
         }
-        return CommonResult.error(500, "编辑失败!");
+        return CommonResult.error(500, "删除失败!");
     }
 
-    //分页查询
+    /**
+     * 分页查询
+     * @param page
+     * @param pageSize
+     * @param dormName
+     * @return
+     */
     @GetMapping("/list")
     public CommonResult<Page<DormRepair>> getList(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize, @RequestParam(value = "dormName", required = false) String dormName) {
         //获取当前的用户id
