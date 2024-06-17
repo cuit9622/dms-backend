@@ -3,20 +3,24 @@ package cuit9622.dms.auth.controller;
 import cuit9622.dms.auth.service.AuthService;
 import cuit9622.dms.auth.service.client.SysClient;
 import cuit9622.dms.auth.vo.*;
-import cuit9622.dms.common.exception.BizException;
 import cuit9622.dms.common.model.CommonResult;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
 @RestController
 public class AuthController {
+    private final String basePath = "/tmp/img/";
     @Resource
     public AuthService authService;
     @Resource
@@ -62,7 +66,6 @@ public class AuthController {
         String fileName = UUID.randomUUID() + suffix;
 
         // 判断当前目录是否存在，如果不存在就创建
-        String basePath = "c:/static/img/";
         File dir = new File(basePath);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -82,21 +85,28 @@ public class AuthController {
         return authService.changeInfo(body);
     }
 
-    @PreAuthorize("hasAuthority('sys:menu:add')")
-    @GetMapping("/test1")
-    public String test1() {
-        return "ok";
-    }
-
     @PermitAll
-    @GetMapping("/test2")
-    public String test2() {
-        throw new BizException(114514, "原神玩少了");
-    }
+    @GetMapping("/img/download")
+    public void download(String name, HttpServletResponse response) {
+        try {
+            // 从输入流中读取文件
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(basePath + name));
 
-    @PermitAll
-    @GetMapping("/test3")
-    public String test3() {
-        return sysClient.test();
+            response.setContentType("image/jpeg");
+
+            // 向浏览器中输出数据,用于展示图片
+            int len = -1;
+            byte[] bytes = new byte[1024];
+            ServletOutputStream os = response.getOutputStream();
+            while ((len = bis.read(bytes)) != -1) {
+                os.write(bytes, 0, len);
+                os.flush();
+            }
+            // 关闭资源
+            os.close();
+            bis.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
