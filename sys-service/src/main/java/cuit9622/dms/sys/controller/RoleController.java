@@ -107,8 +107,8 @@ public class RoleController {
         // 查询当前角色是否被使用
         LambdaUpdateWrapper<UserRole> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(UserRole::getRoleId, id);
-        UserRole userRole = userRoleMapper.selectOne(wrapper);
-        if (!Objects.isNull(userRole)) {
+        List<UserRole> userRole = userRoleMapper.selectList(wrapper);
+        if (!userRole.isEmpty()) {
             throw new BizException("无法删除，正在被使用");
         }
         boolean b = roleService.removeById(id);
