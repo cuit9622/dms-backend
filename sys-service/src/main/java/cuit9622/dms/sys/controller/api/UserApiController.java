@@ -10,6 +10,7 @@ import cuit9622.dms.common.util.DigestsUtils;
 import cuit9622.dms.sys.mapper.UserMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class UserApiController {
     }
 
     @GetMapping("/authorities")
+    @Cacheable(value = "cache::authorities", key = "#userId")
     public List<String> getAuthoritiesByUserId(Long userId) {
         return userMapper.getAuthorities(userId);
     }
