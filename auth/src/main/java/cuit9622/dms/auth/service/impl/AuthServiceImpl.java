@@ -42,11 +42,11 @@ public class AuthServiceImpl implements AuthService {
             throw new BizException("用户名或密码错误");
         }
 
-        CloudflareReqVo cloudflareReqVo = new CloudflareReqVo("0x4AAAAAAAGHnUIytvWD2FxF5TiLTX0kVWg", query.getToken());
-        CloudflareRepVo result = restClient.post("https://challenges.cloudflare.com/turnstile/v0/siteverify", cloudflareReqVo, CloudflareRepVo.class);
-        if (!result.getSuccess()) {
-            throw new BizException(401, "未通过人机验证");
-        }
+//        CloudflareReqVo cloudflareReqVo = new CloudflareReqVo("0x4AAAAAAAGHnUIytvWD2FxF5TiLTX0kVWg", query.getToken());
+//        CloudflareRepVo result = restClient.post("https://challenges.cloudflare.com/turnstile/v0/siteverify", cloudflareReqVo, CloudflareRepVo.class);
+//        if (!result.getSuccess()) {
+//            throw new BizException(401, "未通过人机验证");
+//        }
 
         // 拿到权限信息和token存到redis中
         String token = JWTUtils.creatToken(user.getUserId());
